@@ -29,7 +29,7 @@ def create_config(private-key = "id_rsa", remote_server = None):
                 node  = """Host {1}
                 User {0}
                 Hostname {2}.domain
-                ProxyCommand ssh -q -W %h:%p clrv0000068290.ic.ing.net\n\n""".format(getpass.getuser(),remote_server)
+                ProxyCommand ssh -q -W %h:%p jump_server\n\n""".format(getpass.getuser(),remote_server)
         
 
         # write ssh config
