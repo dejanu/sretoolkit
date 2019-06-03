@@ -1,1 +1,2 @@
-# ython
+# Python
+Python usefull scripts

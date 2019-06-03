@@ -1,0 +1,12 @@
+#!/usr/bin/python
+import requests,os,json
+url='http://192.168.1.109:8888/es/'
+#headers = {'Content-type':'multipart/form-data'}
+payload={'long':'dany','lat':'23'}
+#files = {'file':(os.path.basename('test.png'),open('test.png','rb'),'applicatio$
+#'json':(None,json.dumps(payload),'application/json')}
+files={'file':open('test.png','rb')}
+#requests.post(url,files=files)
+#files = [('file', open('test.png', 'rb')), ('file1', open('alex.txt', 'rb'))]
+#requests.post(url,data={'x':'y'})
+requests.post(url,data=json.dumps(payload))

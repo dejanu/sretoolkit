@@ -1,0 +1,64 @@
+import socket, platform, os
+
+ip_addrr = socket.gethostbyname(socket.gethostname())
+host_info = platform.uname()
+user = os.path.expanduser('~')
+with open('info','wb') as f:
+    f.write(ip_addrr)
+    f.write('\r\n')
+    f.write(user)
+    f.write('\r\n')
+    for i in host_info:
+        f.write(i+'\r\n')
+"""
+>enable  go to privileged #
+
+erase startup-config //erase nvram startup-config
+
+reload //erase running -config
+
+"""
+
+"""
+MODURI DE CONFIG 1+2 doar commenzi de read only
+exit go back in user mode
+enable jump straight to 2
+
+1 User Executive:
+>enable
+
+2 Privileged Executive:
+# configure terminal
+
+3 Global Configuration:
+Router(config)#
+
+4 Specific Configuration:
+
+- Interface Configuration
+
+
+- Line Configuration  // Router (config-line)#
+
+
+Configurate parola pe linia de consoloa (protejare accesului la User Exec)
+Router (config-line)# line console 0
+Router (config-line)# password cisco
+Router (config-line)# login
+
+Configurate parola pe linia de consoloa (protejare accesului la Global Exec)
+Router(config)# enable password cisco
+Router(config)# enable secret class
+Router(config)# no enable password  //remove password
+
+Vizualizare running-config din Privileged (view pwd set)
+# show running-config
+
+Encrypt running conf fin Global
+Router (config-line)#service password-encruption
+Router (config-line)#do show running-config   //run the command from Privileged 
+
+Change hostname
+#hostname new_hostname
+>?  //help
+"""
