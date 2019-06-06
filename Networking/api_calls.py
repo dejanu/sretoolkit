@@ -5,8 +5,15 @@ from requests.auth import HTTPDigestAuth
 import json
 import os
 
+#HTTP headers are in r.header dict
+"""print(r.headers['content-type'])
+print(r.headers['Last-Modified'])
+print(r.encoding)
+print (r.text)
+"""
 
-def basic_request (url='https://api.github.com'):
+
+def github_request (url='https://api.github.com'):
     """basic request no auth"""
     try:
         response =  requests.get('https://api.github.com')
@@ -20,8 +27,10 @@ def basic_request (url='https://api.github.com'):
         #return message body content as  bytes
         return response.content
 
-def request_pass_auth(url="https://api.github.com/repos/dejanu/linux/commits"):
-    """request with user and pass as environ vars"""
+def github_request_pass_auth(url="https://api.github.com/repos/dejanu/linux/commits"):
+    """request with user and pass as environ vars and
+         query string parameters in the URL user params dict
+            """
     u = os.environ["u"]
     p = os.environ["pas"]
     r = requests.get("https://api.github.com/repos/dejanu/linux/commits",params={'per_page': '100'}, verify=False,auth=HTTPDigestAuth(u,p))
@@ -30,7 +39,18 @@ def request_pass_auth(url="https://api.github.com/repos/dejanu/linux/commits"):
         parsed = json.loads(r.content)
         return parsed
 
-
+def gitlab_request(url,decoder = True):
+        """GET request, default SSL verify=True
+            and add headers """
+        basic_request = requests.get(url, verify=False, headers={'PRIVATE-TOKEN':os.get['token']})
+        if basic_request.status_code == 200:
+            if decoder:
+                return basic_request.json()
+            else:
+                # .content raw bytes of the response payload for string use .text
+                return basic_request.content
+        else:
+            return None
 if __name__ == "__main__":
 
-    print(basic_request)
+    print(gitlab_request("https://gitlab.com/api/v4/projects/9395683/jobs"))
