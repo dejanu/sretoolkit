@@ -2,12 +2,17 @@
 
 d = {"f1":312,"f2":432,"f3":312, "f4":432}
 
-# create
+# return dict
 
 dd = {"f1":312,"f2":432}
 
 def unqiue_values_dict(d):
-    dd = dict()
+    """create a new dict with only unqiue values"""
+    dd = {}
+	for k,v in d.items():
+		if v not in dd.values():
+			dd[k]=v
+    return dd
 
 def sort_keys(d):
     """sorting by key"""
