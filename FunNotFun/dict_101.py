@@ -1,6 +1,6 @@
 #/!usr/bin/python
 
-## Associative arrays (hashes)
+## Associative arrays (HASH MAPS) - by default unordered data type
 
 ## KEYS must be unique and immutable; VALUES can be anything: int, string, list , dict
 ## Dictionary has O(1) search time complexity whereas List has O(n) time complexity. 
@@ -99,3 +99,12 @@ def recurse_dict(d):
 		else:
 			print(k,":",v)
 
+
+sportTeams = [("Royals", (18, 12)), ("Rockets", (24, 6)), 
+                ("Cardinals", (20, 10)), ("Dragons", (22, 8)),
+                ("Kings", (15, 15)), ("Chargers", (20, 10)), 
+                ("Jets", (16, 14)), ("Warriors", (25, 5))]
+
+
+# sort team by number of wins team(W,L)
+d_wins = sorted(sportTeams, key = lambda x: x[1][0], reverse = True)

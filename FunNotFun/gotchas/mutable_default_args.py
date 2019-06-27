@@ -1,6 +1,6 @@
 # mutable default args (list,dict) in function definitions
-# default values are evaluated only once at function definition time
 
+# DEFAULT VALUES ARE EVALUATED ONCE AT FUNCTION DEFINITION TIME
 
 def append_to (element,x=[]):
 	x.append(element)
@@ -12,17 +12,17 @@ def fix_append_to(element, x=None):
 	so if you do not pass any list as argument you will have None as default arg for list"""
 	if x is None:
         	x = list()
-    		x.append(element)
+    	x.append(element)
     	return x
 
 if __name__ == "__main__":
 		
 
 	#create a list x and append an element
-	x =append_to("one")
+	x = append_to("one")
 
 	#create another list x and append an element
-	y =append_to("something")
+	y = append_to("something")
 
 	## a new list is created ONCE when the function append_to it is defined
 	## and the same list is used in each succesive call

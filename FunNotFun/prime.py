@@ -11,15 +11,12 @@ def is_prime(x):
         return True
 
 
-def another_prime(x):
-        for i in range(2,x):
-                if x%i == 0:
-                        #is not prime
-                        return False
-                        break
-                else:
-                        pass
-        return True
+def pris(a):
+	for i in range(2,a//2):
+		if a%i == 0:
+			return False
+	else:
+		return True
 
 def sieve_prime(n):
     """ generate firt n prime numbers"""

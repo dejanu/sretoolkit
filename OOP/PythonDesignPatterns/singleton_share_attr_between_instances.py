@@ -25,6 +25,19 @@ class Singleton(Borg):
         # create borg instance
         Borg.__init__(self)
         self._shared_state.update(kwargs)
+
+class OnlyOne():
+
+    _singleton = None
+
+    def __new__(cls, *args, **kwargs):
+        
+        if cls._singleton is None:
+
+            #create class usign super
+            cls._singleton = super(OnlyOne, cls).__new__(cls, *args, **kwargs)
+
+            return cls._singleton
             
 
 if __name__ == "__main__":
@@ -34,3 +47,9 @@ if __name__ == "__main__":
 
     # share attrs between instances
     print(b.HTTP)
+
+    #strage they are the same object
+    one = OnlyOne()
+    two = OnlyOne()
+    three = OnlyOne()
+.
