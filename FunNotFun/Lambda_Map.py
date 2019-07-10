@@ -1,30 +1,18 @@
-##FILTER = constructs an iterator for those elements from iterable for which the function returs TRUE  (item for item in iterable if function(item))
-##MAP = return an iterator that applies the function to every item of iterable  [cube(1), cube(2), ..., cube(10)]
+## FILTER = constructs an iterator for those elements from iterable for which the function returs TRUE  
+## (item for item in iterable if function(item)), FILTER returns a filter object aka predicate
 
-def par(x):
-    """return boolean"""
-    pass
-    return x%2==0
+## MAP = return an iterator that applies the function to every item of iterable  [cube(1), cube(2), ..., cube(10)]
 
-#MAP returns function return [par(1),par(2)]
-map_list = list(map(par,range(1,11)))
-print(map_list) #True False
+## REDUCE = is a function that turns an iterable into one thing
 
-#FILTER returns a filter object, predicate
-# is eq with [item for item in iterable if function(item)]
-filter_list = list(filter(par,range(1,11)))
-print(filter_list)
 
 import math
 
-my_func = lambda x : x+2
-#lambda function for max of two elements
+# anonymous functions
 y = lambda x,y : x if x > y else y
 
-l=[1,4,6,7,3]
 
-##list of squares from l
-s=list(map(lambda x :x**2,l))
+s=list(map(lambda x :x**2,[1,4,6,7,3]))
 
 even_no = list(filter(lambda x: x%2==0,l))
 odd_no = list(filter(lambda x:x%2==1,l))
@@ -32,13 +20,12 @@ odd_no = list(filter(lambda x:x%2==1,l))
 
 #########################################
 def quadtratic_function(a,b,c):
-    """return the quadratic function f(x)=ax^2 + bx + c"""
+    """return the quadratic function f(x)=ax^2 + bx + c as closure"""
     return lambda x : a*x**2 + b*x + c
 
 f = quadtratic_function(2,3,-5)
 ##print(f(1))
 ##print(f(2))
-
 
 g = quadtratic_function(2,3,-5)(0)
 print(g)
@@ -95,16 +82,24 @@ acronim=[i[0] for i in m]
 ####Return words longer then 6 characters
 longest=[i for i in m if len(i)>5]
 
-################################################################
-#####PRIME
 
-def isPrime(x):
-    """check if a number is prime"""
-    for i in range(2,x):
-        if x%i == 0:
-            return False
-    return True
+    
+ #####################################################
+
+def classic():
+    """my_list=[]
+       for i in range(10):
+            my_list.append(i)"""
+    return [i for i in range(10)]
 
 
-for i in range(1,33):
-    print(i,isPrime(i))
+def generate_matrix(columns = 4 , rows = 5):
+    """ generate nested arrays aka MATRIX"""
+    return [[ j for j in range(columns)] for i in range(rows)]
+
+def flatten_matrix( arr ):
+    """ arr: list of lists
+    flatten the nested list structure"""i
+    # [value for inner_list in outer_list for value in inner_list]
+    return [e for sub_arr in arr for e in sub_arr]
+
