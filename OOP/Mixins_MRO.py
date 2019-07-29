@@ -1,7 +1,32 @@
-#MRO mostenire multipla
+## Mix-in = a class not meant for direct instantiation
 
-class Parent1(object):
+## Use multiple-inheritance to combine the mix-ins in the concrete class
+
+## MRO = Memory Resolution Order
+## hierarchy in which base classes are searched when looking for a method in the parent class
+
+
+class Door:
+    """ base class"""
     pass
+
+
+class LockedDoor(Door):
+    pass
+
+class ShortDoor(Door):
+    pass
+
+
+class MagicDoor(Door):
+    pass
+
+
+class LockedShortMagicDoor(LockedDoor, ShortDoor, MagicDoor):
+    pass
+
+
+#-------------------
 
 class Parent2(object):
     def f00(self):
