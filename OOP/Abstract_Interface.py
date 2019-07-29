@@ -1,9 +1,6 @@
-### Abstract class = CANNOT be instantiated (can have abstract methods and instance methods)
+### Abstract class = CANNOT be instantiated
 ## Subclasses of an abstract class in Python are not required to implement abstract methods from parent class
 
-### Interface = used only for defining functionality (no implementation is present in Interfaces) can have only
-## abstract methods
-## Java uses interfaces because it doesn't have multiple inheritance.
 
 ##Python3 compliant where you must inherit ABC
 from abc import ABC, abstractmethod
