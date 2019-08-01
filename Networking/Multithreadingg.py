@@ -10,8 +10,7 @@
 ## (processes are used for parallel CPU computation)
 
 from threading import *
-
-from time import sleep
+from time import *
 
 
 class Hello(Thread):
@@ -33,7 +32,7 @@ class Hi(Thread):
 
 if __name__ == "__main__":
 
-    # override run method from Thread
+    # Creating objects of type thread
     t1 = Hello()
     t2 = Hi()
 
