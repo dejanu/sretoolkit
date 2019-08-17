@@ -4,6 +4,10 @@ import string
 ## KEYS must be unique and immutable; VALUES can be anything: int, string, list , dict
 ## Dictionary has O(1) search time complexity whereas List has O(n) time complexity. 
 
+## what would it print True:maybe
+print({True:'yes',1:'no',1.0:'maybe'})
+
+
 # dictionary mix
 my_dict = {'key1':'value', ('key2','key22'):23, 'key3':[1,2,3], 'key3':123, 3:'ooo'}
 
