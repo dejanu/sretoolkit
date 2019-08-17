@@ -23,13 +23,17 @@ def foofoo(required,*args,**kwargs):
         for i in kwargs.keys():
             print(kwargs[i])
 
+# ARGS interview quiestion
+def test(a,*b):
+	return a*b
 
 if __name__ == "__main__":
 
     # unpacking using * operator
     print("Unpack list [1,2,3] and call sum_nums {}".format(sum_nums(*[1,2,3,4])))
 
-
+    # what is the output of the call
+    print(test(2,3,4))
 
 
 
