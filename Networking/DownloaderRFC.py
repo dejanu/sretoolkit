@@ -1,17 +1,26 @@
-#!/Library/Frameworks/Python.framework/Versions/3.6/bin/python3
-import sys, urllib.request
+import sys , urllib.request
+import ssl
+
+# Fix URLError urlopen error SSL: Certifiacte Verify FALSE, prereq pip install certi
+try:
+   _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    # Legacy Python that doesn't verify HTTPS certificates by default
+    pass
+else:
+    # Handle target environment that doesn't support HTTPS verification
+    ssl._create_default_https_context = _create_unverified_https_context
+
 
 try:
 	rfc_number = int(sys.argv[1])
 except (IndexError, ValueError):
-	print("Must supply RFC as first argument")
+	print('Must supply RFCnumber as first argument')
 	sys.exit(2)
 
-url = "http://www.ietf.org/rfc/rfc{}.txt".format(rfc_number)
 
+template = 'http://www.ietf.org/rfc/rfc{}.txt'
+url = template.format(rfc_number)
 rfc_raw = urllib.request.urlopen(url).read()
-
-#convert from bytes to string
 rfc = rfc_raw.decode()
-
 print(rfc)
