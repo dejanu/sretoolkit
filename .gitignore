@@ -4,8 +4,10 @@
 env/
 venv/
 ENV/
-env.bak/
-venv.bak/
+pyvenv.cfg
+.venv
+\s[A-Z]+\s
+
 .idea/
 .vscode/
 
@@ -13,3 +15,4 @@ venv.bak/
 *.pyc
 *.log
 *.docx
+*.pem
