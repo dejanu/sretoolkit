@@ -4,7 +4,7 @@
 # https://api.github.com/users/dejanu
 # https://api.github.com/users/dejanu/repos
 # https://api.github.com/repos/dejanu/linux
-
+# https://api.github.com/search/code?q=dict_appear+in:dict_101.py+language:py+repo:dejanu/ython  search dict_appear in file dict_101.py
 from getpass import getpass
 import requests
 from requests.exceptions import HTTPError
