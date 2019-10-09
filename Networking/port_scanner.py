@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import socket
 
 
@@ -8,7 +10,7 @@ first_port = int(portrange.split('-')[0])
 last_port = int(portrange.split('-')[-1])
 
 
-print("Scanning host {}, from port {1} to port {2}".format(target,first_port,last_port))
+print("Scanning host {0}, from port {1} to port {2}".format(target,first_port,last_port))
 
 
 from p in range(first_port, last_port):
