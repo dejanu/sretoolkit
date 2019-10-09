@@ -60,16 +60,22 @@ if __name__ == "__main__":
 
     #r = requests.get('https://api.github.com/user', verify=False,auth=('dejanu', getpass()))
     
-    #r = requests.get("https://api.github.com/repos/dejanu/linux/commits",params={'per_page': '100'}, verify=False,auth=('dejanu', getpass()))
-    u = os.environ["u"]
-    p = os.environ["pas"]
-    r = requests.get("https://api.github.com/repos/dejanu/linux/commits",params={'per_page': '100'}, verify=False,auth=HTTPDigestAuth(u,p))
+   #refactor auth
+    try:
+        u = os.environ["u"]
+        p = os.environ["pas"]
+        r = requests.get("https://api.github.com/repos/dejanu/linux/commits",params={'per_page': '100'}, verify=False,auth=HTTPDigestAuth(u,p))
+    except KeyError:
+        print("Env vars for auth not found logging from CLI..")
+        r = requests.get("https://api.github.com/repos/dejanu/linux/commits",params={'per_page': '100'}, verify=False,auth=('dejanu', getpass()))
+
+    
     if r.status_code == 200:
         # get the content as  a list
         parsed = json.loads(r.content)
         commits_list = [i["commit"]["message"] for i in parsed]
 
-    polarity_list = [get_polarity(i) for i in commits_list]
-    t = list(range(len(commits_list)))
-    plot_graf(t, polarity_list)
+    # polarity_list = [get_polarity(i) for i in commits_list]
+    # t = list(range(len(commits_list)))
+    # plot_graf(t, polarity_list)
     
