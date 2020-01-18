@@ -14,8 +14,8 @@ y = lambda x,y : x if x > y else y
 
 s=list(map(lambda x :x**2,[1,4,6,7,3]))
 
-even_no = list(filter(lambda x: x%2==0,l))
-odd_no = list(filter(lambda x:x%2==1,l))
+even_no = list(filter(lambda x: x%2==0,range(100)))
+odd_no = list(filter(lambda x:x%2==1,range(100)))
 
 
 #########################################
@@ -77,11 +77,17 @@ m=["Light","Amplification","Stimulated","Emission","Radiation"]
 ##LASER
 acronim=[i[0] for i in m]
 
-########
-##Filtering lists
+##########Filtering lists
+
 ####Return words longer then 6 characters
 longest=[i for i in m if len(i)>5]
 
+#####Extract the names from the following structure for persons with age ==20
+
+person_list = [{"name":"Alex","age":28}, {"name":"Guido","age":48}, {"name":"Dirk", "age":20}]
+
+names_list = [i.get("name") for i in person_list if i.get("age") == 20]
+print(f"{names_list}")
 
     
  #####################################################
@@ -99,7 +105,7 @@ def generate_matrix(columns = 4 , rows = 5):
 
 def flatten_matrix( arr ):
     """ arr: list of lists
-    flatten the nested list structure"""i
+    flatten the nested list structure"""
     # [value for inner_list in outer_list for value in inner_list]
     return [e for sub_arr in arr for e in sub_arr]
 
