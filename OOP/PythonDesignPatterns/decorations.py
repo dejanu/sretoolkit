@@ -21,10 +21,13 @@ i=g #can call i() now
 f(i)
 
 
+
 #-----------------FuckedUp-decorators--------------------------
-###create atributes for functions objects
 
 def call_counter(func):
+    """ create calls attribute 
+	usage func.calls"""
+
     def helper(*args):
         """increment attribute for the called function"""
         helper.calls+=1
@@ -40,7 +43,6 @@ def succ(x):
 succ(1)
 succ(2)
 print(succ.calls)#2
-
 
 
 def delay_execution(x):
@@ -82,6 +84,12 @@ def get_args_kwargs(function):
               print (f"Function {function.__name__} called with args {args} and kwargs {kwargs}")
               return function(*args, **kwargs)
           return deco
+
+def whois_calling():
+	""get the name of the caller function"""
+	import inspect
+	print (inspect.stack()[1][3])
+
 
 #------------basic-decorators------------------------
 
