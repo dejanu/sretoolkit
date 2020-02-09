@@ -2,7 +2,7 @@
 ## classes are objects too
 
 ##STATIC METHODS staticmethod decorator allows us to call the method object
-##Bound methods are objects too, and creating them has a cost, having a static method avoids that
+## Bound methods are objects too, and creating them has a cost, having a static method avoids that
 
 from itertools import count
 
@@ -11,7 +11,7 @@ class MyClass(object):
     #static var for counting instances
     no_instances = 0
 
-    #another approach for static var in order to count instances
+    #another approach for static var using itertools.count
     _ids = count(0)
     
     
