@@ -35,10 +35,7 @@ class Repeater:
 # every generator is a iterator (issubclass(types.GeneratorType, collection.Iterator)
 
 def fibo_generator():
-    """ [1,1,2,3,5,8] as generator
-        usage: next(f) or f.__next__() for i in range(100)
-        """
-    #first to numbers from fibbonaci sequence
+    """ fibonacci generator """
     a,b=0,1
     while True:
         yield(a)
@@ -46,11 +43,14 @@ def fibo_generator():
         
 
 def fibogenerator(a=1, b=1):
-	"""fibonnaci as generator with args"""
+	"""fibonnacci as generator with default args"""
         while True:
 		yield a
 		a, b = b, a+b
-	
+
+#usage for first 10 no from fibo sequence
+g = fibo_generator()
+fibs = [next(a) for _ in range(10)]
 
 
 if __name__ == "__main__":
