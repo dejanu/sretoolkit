@@ -50,7 +50,7 @@ def fibogenerator(a=1, b=1):
 
 #usage for first 10 no from fibo sequence
 g = fibo_generator()
-fibs = [next(a) for _ in range(10)]
+fibs = [next(g) for _ in range(10)]
 
 
 if __name__ == "__main__":
