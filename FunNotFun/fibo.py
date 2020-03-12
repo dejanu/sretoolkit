@@ -1,6 +1,6 @@
 
-############################## Fibonnaci ###############
-#### fib_seq = [1,1,2,3,5,8,13,21,34,55] ###############
+############################## Fibonnaci sequence [1,1,2,3,5,8,13,21,34,55] ###############
+
 
 
 def fib_recursive(x):
@@ -9,6 +9,14 @@ def fib_recursive(x):
         return 1
     else:
         return fib(x-1)+fib(x-2)
+
+
+def fibo(n):
+	if n<2:
+		return n
+	else:
+		return fibo(n-2)+fibo(n-1)
+
 
 def fib(n):
     '''Fibonnaci series for a given number'''
@@ -26,7 +34,7 @@ def fib_two (n):
 
 ##############################
 
-#fibonaci with cached values
+#fibonacci with cached values
 fib_cached = {}
 
 def _fib(n):
@@ -34,22 +42,20 @@ def _fib(n):
 		fib_cached[n]=fibo(n)
 	return fib_cached[n]
 
-def fibo(n):
-	if n<2:
-		return n
-	else:
-		return fibo(n-2)+fibo(n-1)
 
 ##############################
 
+#fibonacci as generator
 
-def fibo_generator(a=1, b=1):
+
+def fibo_generator(a=0, b=1):
 	"""fibonnaci as generator"""
         while True:
 		yield a
 		a, b = b, a+b
 		
-
+## for i in fibo_generator():
+##	print(i)
 
 ############################## Factorial ###############
 
