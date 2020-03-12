@@ -57,6 +57,9 @@ def fibo_generator(a=0, b=1):
 ## for i in fibo_generator():
 ##	print(i)
 
+## f = fibo_generator()
+## fibs = [next(f) for i in range(10)]
+
 ############################## Factorial ###############
 
 ## compute the number of permutations (combinations)
