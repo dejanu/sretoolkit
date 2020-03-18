@@ -52,6 +52,16 @@ def fibogenerator(a=1, b=1):
 g = fibo_generator()
 fibs = [next(g) for _ in range(10)]
 
+# multiple yield keywords
+def gen_fib():
+	a,b=1,1
+	yield a
+	yield b
+	while True:
+		a,b=b,a+b
+		yield b
+gg = gen_fib()
+fibs = [next(gg) for _ in range(10)]
 
 if __name__ == "__main__":
 
