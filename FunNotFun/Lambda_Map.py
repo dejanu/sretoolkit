@@ -109,3 +109,12 @@ def flatten_matrix( arr ):
     # [value for inner_list in outer_list for value in inner_list]
     return [e for sub_arr in arr for e in sub_arr]
 
+
+###### List comphrehension
+
+# [ Ret-Value Outer-loop Inner-loop ]
+
+# e.g Uppercase all letters from string  ['T', 'E', 'S', 'T', ' ', 'S', 'T', 'R', 'I', 'N', 'G']
+s = "test string"
+upper_s = [ letter.upper() for word in s for letter in word]
+
