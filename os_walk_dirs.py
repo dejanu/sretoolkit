@@ -9,13 +9,15 @@ import time
 
 
 
-#dumb method to get HOST ip and user
+# Dumb method to get HOST ip and user
 host_ip = socket.gethostbyname(socket.gethostname())
 host_user = getpass.getuser()
 
         
-#get env variables
-#windows add env definitvely setx ENV_VAR_NAME "E:\Gitrepo" /m
+# Set env variables
+os.environ['API_USER'] = 'username'
+# Get env variable
+user = os.environ.get('API_USER')
 java_home = os.getenv("COMPUTERNAME","var not fond")                
     
 
