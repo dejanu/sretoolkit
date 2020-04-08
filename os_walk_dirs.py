@@ -17,6 +17,7 @@ host_user = getpass.getuser()
 # Set env variables
 os.environ['API_USER'] = 'username'
 # Get env variable
+user = os.environ['API_USER'] # where os.environ return a dict with all env
 user = os.environ.get('API_USER')
 java_home = os.getenv("COMPUTERNAME","var not fond")                
     
