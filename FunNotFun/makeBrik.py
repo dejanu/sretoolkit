@@ -4,7 +4,9 @@ We have a number of small bricks (1 inch each) and big bricks (5 inches each).
 Return True if it is possible to make the goal by choosing from the given bricks
 """
 def make_briks(small,big,goal):
-    """small 1  big 5 """
+    """small: no of small bricks with value 1 
+	 big: no of small bricks with value  5
+	 """
     #not enough  big briks
     if (goal > big*5 + small):
         return False
