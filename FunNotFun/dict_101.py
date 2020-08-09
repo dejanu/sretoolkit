@@ -17,6 +17,9 @@ dict.fromkeys(["KeyOne","KeyTwo"],1)
 #creating dict with zip 
 le_alphabet = dict(zip(range(len(string.ascii_letters)),string.ascii_letters))
 
+# dict comprehension for alphabet
+le_aphabet = {k:v for k,v in enumerate(string.ascii_lowecase,1)}
+
 #bench-mark
 d = {"Pierre": 42, "Anne": 33, "Zoe": 24}
 
