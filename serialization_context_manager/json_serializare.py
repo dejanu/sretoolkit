@@ -7,6 +7,9 @@ import json
 ## The functions with an s take string parameters. The others take file streams.
 
 
+#dump/dumps => converts python objects such as dict, list, str, int, float, bool, None into JSON.
+#`json.dumps()` Serialize obj to a JSON formatted `str`
+
 
 persons_dict =  [{"name":"lex","age":24},
                  {"name":"aria","age":23},
