@@ -34,13 +34,23 @@ def fib_two (n):
 
 ##############################
 
-#fibonacci with cached values
+#fibonacci dict with cached values
 fib_cached = {}
 
 def _fib(n):
-	if n not in fib_cached:
-		fib_cached[n]=fibo(n)
-	return fib_cached[n]
+
+    # check if fibo number is already cached
+    if n in fib_cached:
+        return fib_cached[n]
+
+    if n<=2:
+        value=1
+    else:
+        value = _fib(n-1) + _fib(n-2)
+
+    # save the fibo number to dict
+    fib_cached[n]=value
+    return value
 
 
 ##############################
