@@ -1,13 +1,5 @@
 #!/usr/bin/python
 
-##open file clasic way
-
-f = open('clasic_file.txt','w')
-try:
-    f.write("first line \n")
-    f.write("second line \n")
-finally:
-    f.close()
 
 ## context manager protocol == class with __enter__() and __exit__() method
 ## $ulimit -n = no of leak-ed file descriptors supported by OS
