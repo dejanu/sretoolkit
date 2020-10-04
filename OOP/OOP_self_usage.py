@@ -31,7 +31,7 @@ class MyClass():
         # return str(self.a + self.b)
 
         # for a,b == 1
-        # return str(type(self).a + Myclass.
+        # return str(type(self).a + Myclass.b)
         return str(a+b)
 
 
