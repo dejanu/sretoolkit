@@ -1,54 +1,69 @@
+### Objects
 
-# self = binds the attributes with name arguments
-
-class Spam:
-    """ self is used to represent the instance of the class """
-    
-    x = 1
-    y = 1
-
-    def __init__(self,value_x, value_y):
-        
-        # value_x will not be binded to a Spam object
-        x = value_x
-
-        # value_y will be binded to a Spam object 
-        self.y = value_y
-
-################################ Namespaces
 # global var declaration
-a,b = 0,0
-class MyClass():
+x = 100
+y = 200
 
-    a,b= 1,1
-    def __init__(self):
-        self.a = 2 
-        self.b = 2
+# blank class
+class Test():pass
+
+
+class Car():
+
+    # class variables
+    x = 1
+    y = 2
     
-    def __str__(self):
-        
-        # for a,b == 2
-        # return str(self.a + self.b)
+    def __init__ (self,brand,age):
+        """
+        self is used to represent the instance of a class
+        """
 
-        # for a,b == 1
-        # return str(type(self).a + Myclass.b)
-        return str(a+b)
+        # self = binds the attributes with name arguments
+        print(f"SELF is: {type(self)}")
+        
+        self.b = brand
+        self.a = age
+
+        self.x = 2
+        self.y = 2
+        
+        # mock_value will not be binded to Car object
+        mock_values = 111
+
+    def __str__(self):
+        """ string representation"""
+
+        #return str(self.x + self.y)
+        return str (Car.x + Car.y)
+        #return str(x+y)
+
+    @classmethod
+    def with_plates(cls, brand, age, country):
+        """ helper method for initialization"""
+        c = cls(brand,age)
+        c.country = country
+        return c
+
+    @staticmethod
+    def upper_brand(name):
+        """ utility function"""
+        return name.upper()
+    
 
 
 if __name__ == "__main__":
 
-    # object instantiation
-    s = Spam(5,6)
+    obj = Test()
 
-    # True
-    s.x == Spam.x
+    c1 = Car("bmw",23)
+    c2 = Car("audi",245)
 
-    # False
-    s.y == Spam.y
+    # string representation 300 3 or 4
+    print(c1)
 
-    ################################ Namespaces
+    # helper method
+    c3 = Car.with_plates("bwm",234,"DT")
 
-    m = MyClass()
-
-    # 0 
-    print(m)
+    # static method usage
+    c1.b = Car.upper_brand(c1.b)
