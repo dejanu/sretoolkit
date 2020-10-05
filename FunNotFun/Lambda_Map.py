@@ -5,7 +5,15 @@
 
 ## REDUCE = is a function that turns an iterable into one thing
 
-# test
+
+########################################
+
+
+# introspection lambdas bytecode
+import dis
+add = lambda x,y: x+y
+dis.dis(add)
+
 
 import math
 
@@ -15,7 +23,19 @@ y = lambda x,y : x if x > y else y
 
 s=list(map(lambda x :x**2,[1,4,6,7,3]))
 
-even_no = list(filter(lambda x: x%2==0,range(100)))
+
+# lambda function aka anonymous function are EXPRESSIONS
+# lambda do not have STATEMENTS like: return, pass, assert or raise
+
+# lambda reduction
+(lambda x: x+1)(2)
+(lambda x,y: x+y)(2,3)
+
+
+# trap 
+even_no_OK = list(filter(lambda x: x%2==0,range(100)))
+even_no_NOK = list(filter(lambda x: x%2,range(100)))
+
 odd_no = list(filter(lambda x:x%2==1,range(100)))
 
 
