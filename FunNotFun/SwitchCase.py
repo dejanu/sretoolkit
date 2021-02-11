@@ -1,4 +1,4 @@
-##Switch case =  functions are first class objects
+## Switch case emulation using a mapping of callables
 
 def summ(a,b):
     """sum of two numbers"""
@@ -28,11 +28,14 @@ def le_dict(key,x,y):
         }.get(key,lambda:None)(x,y)
 
 def switchdemo(argument):
-    switcher ={1:'one',2:'two',3:'three'}
-    print switcher.get(argument,'Non existing value in dict')
-
-
-
+    s_dict = {1: print(argument),2: print(argument.upper()) }
+    try:
+        command_action = s_dict[argument]
+    except KeyError:
+        print("No key in dict")
+    else:
+        return command_action()
+    
 
 ##switcher[Dict_key]("Func_argument")
 
