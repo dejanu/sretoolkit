@@ -3,20 +3,16 @@
 
 
 
-def fib_recursive(x):
-    ''' Fibbonaci series for a given number - RECURSIVE'''
-    if (x==1) or (x==2):
-        return 1
-    else:
-        return fib(x-1)+fib(x-2)
-
-
 def fibo(n):
+	""" revursive """"
 	if n<2:
 		return n
 	else:
-		return fibo(n-2)+fibo(n-1)
+		return fibo(n-1)+fibo(n-2)
 
+# oneliner	
+fib = lambda n: n if n < 2 else (fib(n - 1) + fib(n - 2))
+	
 
 def fib(n):
     '''Fibonnaci series for a given number'''
