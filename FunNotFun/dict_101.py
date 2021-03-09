@@ -44,15 +44,9 @@ def sort_keys(d):
         new_dd[i] = d.get(i) 
     return new_d
 
-def sort_values(d): 
-    """ sort a dictionary by VALUES """
-    dd = dict()
-    # list of tuples (k,v) sorted by v
-    # where x in lambda is a (k,v) tuple == (d.items(), key=lambda (k,v): v)
-    sorted_d = sorted(d, key = lambda x : x[1])
-    for i in sorted_d:
-        dd[i[0]]=i[1]
-    return dd
+
+# sort dict a by values
+{k: v for k, v in sorted(a.items(), key=lambda i: i[1])}
 
 
 def unqiue_values_dict(d):
