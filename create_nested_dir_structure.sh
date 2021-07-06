@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# create nested dir structure needed for grafana provisioning
+# create dir structure needed for provisioning
 mkdir -p provisioning/{datasources,notifiers,dashboards/backup}
 
 # write all.yml config for dashboards - more info here https://grafana.com/docs/grafana/latest/administration/provisioning/
@@ -10,12 +10,11 @@ tee -a ./provisioning/dashboards/all.yml << END
   folder: ''            # name of the folder to put the dashboard (http://docs.grafana.org/v5.0/reference/dashboard_folders/)
   type: 'file'          # type of dashboard description (json files)
   options:
-    folder: '/var/lib/grafana/dashboards'       # where dashboards are
-END
+    # where dashboards are
+    #folder: '/var/lib/grafana/dashboards'
+    # <string, required> path to dashboard files on disk. Required when using the 'file' type
+    path: /var/lib/grafana/dashboards
+    # <bool> use folder names from filesystem to create folders in Grafana
+    foldersFromFilesStructure: true
 
-#./provisioning/
-#├── dashboards
-#│   ├── all.yml
-#│   └── backup
-#├── datasources
-#└── notifiers
+END
