@@ -1,5 +1,11 @@
 #!/usr/bin/python3
 
+# curl -k -X GET https://<USER>:<PASSWORD>@index.docker.io/v2/_catalog
+# docker search https://index.docker.io/grafana
+# endpoints:
+# /v2/_catalog 
+# /v2/<IMAGE>/tags/list
+
 import requests
 import json
 import warnings
@@ -9,11 +15,6 @@ import sys
 from python_vault import *
 
 warnings.simplefilter('ignore',InsecureRequestWarning)
-
-
-# endpoints:
-# /v2/_catalog 
-# /v2/<IMAGE>/tags/list
 
 def reg_inspect(reg=None, user=None, password=None):
     """ pprint all repositories and tags from registry"""
