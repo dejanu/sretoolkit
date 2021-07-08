@@ -22,13 +22,8 @@ def decrypt_it(emsg,fkey):
     msg_decoded = f.decrypt(emsg)
     return msg_decoded
 
+if __name__ == "__main__": 
 
-
-    
-
-if __name__ == "__main__":
-    
- 
-    # encrypt passwords 
-    encrypt_msg = encrypt_it(b"messagetoencrypt", <key_generated_onetime>)
-    # usage decrypt_it(encrypt_msg,<key_generated_onetime>)
+    # encrypt/decrypt passwords 
+    a = encrypt_it(b"textToEncrypt", "ENCRYPTION_KEY")
+    aa = decrypt_it(a, "ENCRYPTION_KEY")
