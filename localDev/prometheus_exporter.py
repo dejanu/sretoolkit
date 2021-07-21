@@ -1,21 +1,36 @@
 #!/usr/bin/python3
 
-import json
-
-from prometheus_client import Info, start_http_server
+from prometheus_client import Info, make_wsgi_app
+from wsgiref.simple_server import make_server
 from prometheus_client.core import GaugeMetricFamily, CounterMetricFamily, InfoMetricFamily, REGISTRY
 
 import requests
+import json
 from requests.exceptions import HTTPError
 
+"""
+# view child processes
+pgrep -P $(ps -C containerd | awk 'FNR == 2 {print $1}')  
+pstree $(ps -C containerd)
+
+ps -p 2281 -o comm=
+
+for i in $(ps -C containerd | awk 'FNR > 1 {print $1}');do pstree $i;done
+
+containerd-shim is a child process of containerd that serves a single container and takes care of the container lifecycle and exposes its functions to containerd through containerd-shim API
+containerd  - containerd runtime, your images are built in the standardised Open Container Initiative (OCI) - available as a daemon for Linux 
+
+
+"""
 class CustomCollector(object):
 
     @staticmethod
     def convert_to_metric(endpoint=None,json_file=False):
         """
-        <metric name>{<label name>=<label value>, ...}
+        cd /pack/monitoring/services/prometheus_normal/etc/file_sd/plan.json
+        curl -s http://URL
         """
-        # json_file from disk
+        # read json_file from disk
         if json_file:
             f = open(json_file,'r')
             metric  = json.load(f)
@@ -23,7 +38,6 @@ class CustomCollector(object):
             return metric
         # curl endpoint
         else:
-
             try:
                 response = requests.get(endpoint,verify=False) # disable TLS certificate verification
             except HTTPError as http_err:
@@ -48,33 +62,33 @@ class CustomCollector(object):
 
 
     def collect(self):
-        yield GaugeMetricFamily('my_gauge', 'Help text', value=7)
+        yield GaugeMetricFamily('running_containers', 'gauge', value=7)
 
-        c = CounterMetricFamily('my_counter_total', 'Help text', labels=['fodo'])
+        c = CounterMetricFamily('my_counter_total', 'Help text', labels=['test'])
         c.add_metric(['bar'], 123)
         c.add_metric(['baz'], 5435)
         yield c
 
         #d = CustomCollector.convert_to_metric(json_file="response.json")
-        # d = CustomCollector.convert_to_metric(endpoint="http://servermonitor/health")
+        #d = CustomCollector.convert_to_metric(endpoint="URL/health")
 
-        i = InfoMetricFamily ("cura_plan_health_info", "Info about curaplan app")
-        i.add_metric(['health_status'],  {'healthy': "TESTME", 'name': "yes"})
+        # single time series
+        i = InfoMetricFamily ("plan_health_info", "Info about plan app")
+        i.add_metric(['health_status'],  {'healthy': "True", 'name': "Test app"})
         # for c in range(len(d["services"])):
-        #     print(c)
-        #     i.add_metric(['healthy_status'],  {'app': str(d["services"][c]["name"]), 'status': str(d["services"][c]["healthy"])})
+        #     i.add_metric(['health_status'],  {'service': str(d["services"][c]["name"]), 'healthy': str(d["services"][c]["healthy"])})
         
         yield i
-
 
 
 
 if __name__ == "__main__":
 
     REGISTRY.register(CustomCollector())
+    app = make_wsgi_app()
+    httpd = make_server('', 8888, app)
+    httpd.serve_forever()
+
+
+
     
-    ## single time series
-    # i = Info('cura_plan_health_info', 'Info about healthcheck')
-    # i.info({'healthy': "TESTME", 'name': "yes"})
-    
-    start_http_server(8888)
