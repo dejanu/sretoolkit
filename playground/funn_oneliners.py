@@ -5,7 +5,5 @@
 # if comparison is True the Linux kernel, which makes another exec call with path /usr/bin/env python and current file as the first argument
 
 
-import os
-
-print(os.listdir(os.getcwd()))
-
+#fibonacci
+fib = lambda n: n if n < 2 else (fib(n - 1) + fib(n - 2))
