@@ -1,0 +1,39 @@
+
+- name: Gather info
+  hosts: "{{ hosts }}"
+  gather_facts: no
+  tasks:
+
+   - name: Check docker daemon
+     become: yes
+    #command: docker system info
+     command: docker system info --format "current_version {{ '{{' }} .ServerVersion {{ '}}' }} current_storage_info {{ '{{' }} .Driver {{ '}}' }}"
+     register: dkr_info
+
+   - debug: msg={{dkr_info.stdout_lines | to_nice_json }}
+
+   - name: Check all running containers
+     become: yes
+     command: docker ps -a --format "{{ '{{' }} .Names {{ '}}' }}"
+     register: dkr_ps
+
+   - name: Get info about each container
+     become: yes
+     command: docker ps -a -f name={{ item }} --format {%raw%}"table {{.Status}}"{%endraw%}
+    #  docker_container_info:
+    #    name: "{{ item }}"
+     loop: "{{dkr_ps.stdout_lines}}"
+     register: result
+
+   - name: Display container state
+     debug: 
+      #  msg: " {{ item.container.State | to_nice_json }}"
+      msg: " {{item.item}} status is :{{ item.stdout_lines | to_nice_json }} "
+     loop: "{{result.results }}"
+
+
+
+  
+     
+  
+    
