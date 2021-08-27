@@ -26,3 +26,5 @@ echo -e "======================= \033[0;33mUsage Stats\e[0m================="
 oc adm top nodes --use-protocol-buffers
 for i in $(oc get nodes | awk 'FNR>1 {print $1}');do echo -e "Allocated resources \033[1;4;32;41mNode $i: \e[0m";oc describe node $i| awk -v RS=':' '/Addresses/';done
 echo "Start debug pod for a node: oc debug node/<NODE_NAME>"
+
+# oc adm manage-node <node1> <node2> --list-pods [--pod-selector=<pod_selector>] [-o json|yaml]
