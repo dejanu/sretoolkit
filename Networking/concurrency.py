@@ -1,11 +1,5 @@
 #!/usr/bin/python3
 
-import concurrent.futures
-import threading
-
-import requests
-import time
-
 # parallelism = simultaneously for multicore
 # concurency = specific kind of parallelism used for single core
 
@@ -16,25 +10,37 @@ import time
 ## processes are used for parallel CPU computation
 
 
+import time
+import requests
+
+import concurrent.futures
+import threading
+
+
 thread_local = threading.local()
 
-def download_site(url, session):
-    with session.get(url) as response:
-        print(f"Read {len(response.content)} from {url}")
+#def call_tenant(url,session):
+#    with session.get(url) as response:
+#        return response.content
+
+def call_tenant(url,session):
+    if not hasattr(thread_local, "session"):
+        thread_local.session = requests.Session()
+    return thread_local.session
 
 
-def download_all_sites(sites):
-    with requests.Session() as session:
-        for url in sites:
-            download_site(url, session)
+#def call_all_tenants(urls):
+#    with requests.Session() as session:
+#       for url in urls:
+#           print(call_tenant(url,session))
+def call_all_tenants(urls):
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        executor.map(call_tenant, urls)
 
 
 if __name__ == "__main__":
-    sites = [
-        "https://www.jython.org",
-        "http://olympus.realpython.org/dice",
-    ] * 80
-    start_time = time.time()
-    download_all_sites(sites)
-    duration = time.time() - start_time
+
+    urls=["endpoints"]
+
+    call_all_tenants(urls)
     print(f"Downloaded {len(sites)} in {duration} seconds")
