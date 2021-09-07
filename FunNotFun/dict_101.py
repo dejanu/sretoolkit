@@ -14,11 +14,17 @@ my_dict = {'key1':'value', ('key2','key22'):23, 'key3':[1,2,3], 'key3':123, 3:'o
 #create a dict from with given keys and 1 as values TBD
 dict.fromkeys(["KeyOne","KeyTwo"],1)
 
+#default dict with default factory value (int,str) for adding missing keys:values
+from collections import defaultdict
+city = defaultdict(lambda: "Default value")
+
 #creating dict with zip 
 le_alphabet = dict(zip(range(len(string.ascii_letters)),string.ascii_letters))
 
 # dict comprehension for alphabet
 le_aphabet = {k:v for k,v in enumerate(string.ascii_lowecase,1)}
+
+
 
 #bench-mark
 d = {"Pierre": 42, "Anne": 33, "Zoe": 24}
