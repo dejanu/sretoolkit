@@ -7,6 +7,8 @@ import re
 ## {m} = m copies of precedint RE e.g: a{5} matches aaaaa
 ## [a,z] = set of chars 
 
+# split string with multiple delimiters
+print(re.split('\W+', 'Hello,world;a:test')) #['Hello', 'world', 'a', 'test']
 
 def remove_punctuation(s):
     """ Remove punctuation [?.!] from string s"""
