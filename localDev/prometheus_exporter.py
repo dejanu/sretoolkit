@@ -1,13 +1,5 @@
 #!/usr/bin/python3
-
-from prometheus_client import Info, make_wsgi_app
-from wsgiref.simple_server import make_server
-from prometheus_client.core import GaugeMetricFamily, CounterMetricFamily, InfoMetricFamily, REGISTRY
-
-import requests
-import json
-from requests.exceptions import HTTPError
-
+# https://tenthousandmeters.com/tag/python-behind-the-scenes/
 """
 # view child processes
 pgrep -P $(ps -C containerd | awk 'FNR == 2 {print $1}')  
@@ -22,71 +14,61 @@ containerd  - containerd runtime, your images are built in the standardised Open
 
 
 """
-class CustomCollector(object):
+from prometheus_client import Info,Gauge
+from prometheus_client.core import InfoMetricFamily
 
-    @staticmethod
-    def convert_to_metric(endpoint=None,json_file=False):
-        """
-        cd /pack/monitoring/services/prometheus_normal/etc/file_sd/plan.json
-        curl -s http://URL
-        """
-        # read json_file from disk
-        if json_file:
-            f = open(json_file,'r')
-            metric  = json.load(f)
-            f.close()
-            return metric
-        # curl endpoint
-        else:
-            try:
-                response = requests.get(endpoint,verify=False) # disable TLS certificate verification
-            except HTTPError as http_err:
-                print(f'HTTP error occurred: {http_err}')
-            except Exception as err:
-                print(f'Other error occurred: {err}')
-            else:
-                print('Success!')
+import time
+import requests
+import concurrent.futures
+import threading
 
-                ## MUCH WOW MUCH OPTIONS (**)
-                # return message body content as  bytes
-                #return response.content
+from prometheus_client import make_wsgi_app
+from wsgiref.simple_server import make_server
 
-                # return message body content as  string
-                #return response.text
+thread_local = threading.local()
 
-                # return message body as dict/json or list 
-                #return json.loads(response.text)
+def get_session():
+    """ return session obj that allows to persist params across requests"""
+    if not hasattr(thread_local, "session"):
+        # each thread will create its own session object
+        thread_local.session = requests.Session()
+    return thread_local.session
 
-                # return using requests built-in
-                return response.json()
+def call_tenant(url):
+    """ call endpoint and extract/retrun desired info as str"""
+    session = get_session()
+    with session.get(url) as response:
+        #print(response.content) - check the top-level key health:true
+        g.labels(tenant=url, status=response.json().get("healthy", "service notfound")).inc()
 
+def call_all_tenants(urls):
+    """prometheus instrumentation: <metric name>{<label name>=<label value>,}"""
+    # create pool of threads to run concurrently
+    global g
+    g = Gauge("tenant_health_status","health status of tenant",["tenant","status"])
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        # control how/when each thread in the pool will run
+        executor.map(call_tenant, urls)
 
-    def collect(self):
-        yield GaugeMetricFamily('running_containers', 'gauge', value=7)
-
-        c = CounterMetricFamily('my_counter_total', 'Help text', labels=['test'])
-        c.add_metric(['bar'], 123)
-        c.add_metric(['baz'], 5435)
-        yield c
-
-        #d = CustomCollector.convert_to_metric(json_file="response.json")
-        #d = CustomCollector.convert_to_metric(endpoint="URL/health")
-
-        # single time series
-        i = InfoMetricFamily ("plan_health_info", "Info about plan app")
-        i.add_metric(['health_status'],  {'healthy': "True", 'name': "Test app"})
-        # for c in range(len(d["services"])):
-        #     i.add_metric(['health_status'],  {'service': str(d["services"][c]["name"]), 'healthy': str(d["services"][c]["healthy"])})
-        
-        yield i
-
-
+def read_config(conf_file):
+    """ read config file with endpoints"""
+    with open(conf_file,"r") as f:
+        lines = [l.rstrip() for l in f.readlines()]
+    return lines
 
 if __name__ == "__main__":
 
-    REGISTRY.register(CustomCollector())
+    urls=read_config("endpoints")
+    start_time = time.time()
+
+    call_all_tenants(urls)
+
+    duration = time.time() - start_time
+    print (f"Time duration: {duration} seconds")
+
+    ##create WSGI app
     app = make_wsgi_app()
-    httpd = make_server('', 8888, app)
+    httpd = make_server('',8888, app)
     httpd.serve_forever()
 
 
