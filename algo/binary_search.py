@@ -1,4 +1,4 @@
-## algos
+#!/usr/bin/env python
 
 def bubble_sort(l):
     """bubble sort in descending order"""
