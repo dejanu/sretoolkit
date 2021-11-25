@@ -1,0 +1,23 @@
+<th class="tg-0lax">LbStatus</th>
+</thead>
+
+<tbody>
+
+  <tr>
+    <td class="tg-0lax">  <a href="URL"> Grafana</a> </td>
+  </tr>
+</tbody>
+</table>
+
+        <ul>
+
+            {% for k,v in pools_sts.items() %}
+                        <li>Pool: <b>{{ k }}</b> - State:{{ v }}  </li>
+            <br>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+
+
+</html>

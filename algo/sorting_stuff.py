@@ -45,7 +45,7 @@ def quick_sort(l):
         pivot = l[0]
         less = [i for i in l[1:] if i <= pivot]
         greater = [i for i in l[1:] if i > pivot]
-        return quick_sort(less) + [pivot] + quick_sort(greater)
+    return quick_sort(less) + [pivot] + quick_sort(greater)
 
 ###################################
 def insertion_sort(l):
