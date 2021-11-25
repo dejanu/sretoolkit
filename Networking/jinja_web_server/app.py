@@ -23,7 +23,14 @@ def create_pid_file():
 
 @app.route("/")
 def index():
-    lb_state = call_endpoint3("http://mockbin.com/request?foo=bar&foo=baz"")
+    """entrypoint for index page"""
+    # read url as environment variable
+    lb_url = os.environ.get("LB_URL")
+    if not lb_url:
+        lb_url = "http://mockbin.com/request?foo=bar&foo=baz"
+        
+    lb_state = call_endpoint3(lb_url)
+    
     #dict object to be used in render_template
     pools_state = lb_state.get("state")
     return render_template("index.html",pools_sts=pools_state)
