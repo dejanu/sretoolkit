@@ -31,9 +31,25 @@ def index():
         
     lb_state = call_endpoint3(lb_url)
     
-    #dict object to be used in render_template
-    pools_state = lb_state.get("state")
+    # dict object to be used in render_template
+    # get pools as list
+    pools_state = lb_state.get("state").get("pools")
+    
     return render_template("index.html",pools_sts=pools_state)
+
+@app.route("/status", methods=['GET', 'POST'])
+def status():
+    """status page"""
+    # read url as environment variable
+    lb_url = os.environ.get("LB_URL")
+    if not lb_url:
+        lb_url = "http://mockbin.com/request?foo=bar&foo=baz"
+        
+    lb_state = call_endpoint3(lb_url)
+    
+    # get errors as list
+    err_sts = lb_state.get("state").get("errors")
+    return render_template("status.html",sts=err_sts)
 
 if __name__ == "__main__":
     try:
@@ -44,4 +60,4 @@ if __name__ == "__main__":
 
     pid_file = create_pid_file()
 
-    app.run(host='0.0.0.0', port=8880, debug=True)
+    app.run(host='0.0.0.0', port=9095, debug=True)

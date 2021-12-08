@@ -4,18 +4,24 @@
 <tbody>
 
   <tr>
-    <td class="tg-0lax">  <a href="URL"> Grafana</a> </td>
+    <td class="tg-0lax">  <a href="https://grafana.com"> Grafana</a> </td>
+    <td class="tg-0lax">  <a href="{{ url_for('status') }}"> Error page</a> </td>
   </tr>
 </tbody>
 </table>
 
         <ul>
-
-            {% for k,v in pools_sts.items() %}
-                        <li>Pool: <b>{{ k }}</b> - State:{{ v }}  </li>
-            <br>
-            {% endfor %}
-        </ul>
+            {% for pool in pools_sts %}
+              <li>Pool: <b>{{ pool.name }}</b>:
+                  <ul>
+                    <li>Active Nodes in Pool:{{ pool.active_nodes }}</li>
+                    <li>Disabled Nodes in Pool:{{ pool.disabled_nodes }}</li>
+                    <li>Draining Nodes in Pool:{{ pool.draining_nodes }}</li>
+                    <li>Failure Pool:{{ pool.failure_pool }}</li>
+                  </ul>
+              <br>
+            {% endfor %} 
+          </ul>
     </div>
 </body>
 
