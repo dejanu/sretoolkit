@@ -14,7 +14,19 @@ def bubble_sort(l):
             if l[j]>l[j+1]:
                  l[i],l[j+1]=l[j+1],l[i]
     return l
+
+def bubble(l):
+    """bubble sort second approach"""
+    sorted_flag = False
+    while not sorted_flag:
+        sorted_flag = True
+        for i in range(len(l)-1):
+            if l[i] > l[i+1]:
+                l[i],l[i+1] = l[i+1],l[i]
+                sorted_flag = False
+    return l
 ###################################
+
 # def quick_sort(l):
 #     """ quick sort first iteration"""
 #     lenght = len(l)
@@ -38,7 +50,14 @@ def bubble_sort(l):
 #     return quick_sort(items_lower) + [pivot] + quick_sort(items_greater)
 
 def quick_sort(l):
-    """quick sort second iteration"""
+    """
+    choose pivot - big O
+    Partitioning - should be done in linear time
+    store elements < pivot in left sublist
+    store elements > pivot in right sublist
+    call quick_sort on left sublist
+    call quick_sort on right sublist
+    """
     if len(l) <= 1:
         return l
     else:
@@ -66,10 +85,10 @@ if __name__ == "__main__":
   
     print(l)
 
-    # quick sort
-    print("Quick sorted list:     {}".format(quick_sort(l)))
-    # insertion sort
-    print("Insertion sorted list: {}".format(insertion_sort(l)))
-    # bubble sort
-    print("Bubble sorted list:    {}".format(bubble_sort(l)))
+    # # quick sort
+    # print("Quick sorted list:     {}".format(quick_sort(l)))
+    # # insertion sort
+    # print("Insertion sorted list: {}".format(insertion_sort(l)))
+    # # bubble sort
+    print("Bubble sorted list:    {}".format(bubble(l)))
     
