@@ -70,7 +70,6 @@ apparitions = list(map(lambda x : len(x),sentence.split(" ")))
 
 
 #Return all the nubers divisible with 3 in the interval 0:30
-
 numbs = range(0,31)
 divthree = list(map(lambda x : x if x%3 == 0 else 0, numbs))
 divthree_2 = list(x for x in numbs if x%3 == 0)
