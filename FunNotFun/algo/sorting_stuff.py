@@ -1,12 +1,5 @@
 #!/usr/bin/env python
 
-import random
-
-def gen_random_list(size, max_value):
-    """generate a random list of numbers"""
-    return [random.randint(0, max_value) for _ in range(size)]
-
-###################################
 def bubble_sort(l):
     """bubble sort"""
     for i in range(len(l)):

@@ -1,6 +1,10 @@
 import random
 
 
+def gen_random_list(size, max_value):
+    """generate a random list of numbers"""
+    return [random.randint(0, max_value) for _ in range(size)]
+
 # shuffle list
 sample_list = [1, 2, 3, 4, 5]
 
