@@ -10,7 +10,7 @@ def call_endpoint3(url):
     """
     try:
         # without SSL certificate verification
-        response = requests.get(url,auth=HTTPBasicAuth('<USER>','<PASSWORD>'),verify=False)
+        response = requests.get(url,auth=HTTPBasicAuth('user','password'),verify=False)
     except HTTPError as http_err:
         print(f'HTTP error occurred: {http_err}')
     except Exception as err:

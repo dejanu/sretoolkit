@@ -6,7 +6,7 @@ COPY requirements.txt /app/requirements.txt
 WORKDIR /app
 RUN pip install -r requirements.txt
 COPY . /app
-EXPOSE 8880
+EXPOSE 9095
 ENV LB_URL=https://loadbalance.stuff
 ENTRYPOINT [ "python" ]
 CMD [ "app.py" ]
