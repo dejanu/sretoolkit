@@ -17,3 +17,20 @@ def summ (number):
             summa+=last_digit
     return summa
         
+#  number  is created by concatenating the string   n*p times so the initial 
+def superDigit(n, k):
+    #if len(n)==1:
+    #     return n
+    # else:
+    #     # multiply str by constant
+    #     new_n=k*n
+    #     while len(new_n)>1:
+    #         s = digitsum(int(new_n))
+    #         new_n = str(s)
+    # return s
+    if len(n) == 1:
+        return int(n)
+    res = 0
+    for num in n:
+        res += int(num)
+    return superDigit(str(res*k),1)

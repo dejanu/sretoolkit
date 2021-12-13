@@ -34,6 +34,6 @@ if __name__ == '__main__':
     print(dp)
     print(dc)
 
-    # get colums
+    # get columns
     cols = list(zip(*test))
     print(cols)
