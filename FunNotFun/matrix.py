@@ -3,6 +3,7 @@
 # Given a square matrix, calculate the absolute difference between the sums of its diagonals.
 
 def gen_random_matrix(cols,rows):
+    """ Generate a random matrix of size cols x rows """
     import numpy as np
     # Generate a random matrix of floats
     # return np.random.rand(cols,rows)
@@ -27,7 +28,12 @@ if __name__ == '__main__':
         for y in range(max_row):
             print(test[x][y])
 
+    # sum the diagonals
     dp = [test[i][i] for i in range(0, len(test))]
     dc = [test[i][~i] for i in range(0, len(test))]
     print(dp)
     print(dc)
+
+    # get colums
+    cols = list(zip(*test))
+    print(cols)
