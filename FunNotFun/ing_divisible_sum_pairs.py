@@ -2,7 +2,6 @@
 # where indices i,j are i<j and  arr[i] + arr[j] divisible by k
 
 
-
 def divisibleSumPairs(n, k, ar):
    """ nice nested iteration """ 
     c = 0
