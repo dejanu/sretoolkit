@@ -1,4 +1,11 @@
 #!/usr/bin/bash
+
+# stats about merged and unmerged branches
+echo "Merged Branches"
+git branch -r --merged | grep -v HEAD | xargs -L1 git --no-pager log --pretty=tformat:'%Cgreen%d%Creset | %h | %an | %Cblue%ar%Creset' -1 | column -t -s '|'
+echo "Unmerged Branches"
+git branch -r --no-merged | grep -v HEAD | xargs -L1 git --no-pager log --pretty=tformat:'%Cgreen%d%Creset | %h | %an | %Cblue%ar%Creset' -1 | column -t -s '|'
+
 # some local cleanup:delete refs not local branches
 git fetch -p
 #display all remotes associated with origin git remote show origin
