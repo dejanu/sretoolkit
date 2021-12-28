@@ -15,7 +15,7 @@ def show_rules():
     """
     Rules for a great git commit message style
     """
-    print("Please follow the rules add task/feature COPS-xxxx in the name of the commit msg""")
+    print("Please follow the rules add task/feature TASK-xxxx in the name of the commit msg""")
 
 def main():
     print("Args are {}".format(sys.argv))
