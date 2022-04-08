@@ -28,3 +28,17 @@ for i in $(oc get nodes | awk 'FNR>1 {print $1}');do echo -e "Allocated resource
 echo "Start debug pod for a node: oc debug node/<NODE_NAME>"
 
 # oc adm manage-node <node1> <node2> --list-pods [--pod-selector=<pod_selector>] [-o json|yaml]
+
+#==================================================================ALIASES
+
+# list all pods/deployments/services/persistent volumes from all namespaces
+alias kc='f(){ kubectl get $1 -A -o go-template="{{range .items}} --> {{.metadata.name}} in namespace: {{.metadata.namespace}}{{\"\n\"}}{{end}}"; unset -f f; }; f'
+
+# check pods which are running or not
+alias pods_notrunning='kubectl get pods -A --field-selector=status.phase!=Running'
+alias pods_running='kubectl get pods -A --field-selector=status.phase=Running'
+
+# check namespace events
+alias namespace_events='for n in $(kubectl get ns -o go-template="{{range .items}}{{.metadata.name}}{{\"\n\"}}{{end}}");do kubectl get events -n $n;done'
+
+# check vault status
