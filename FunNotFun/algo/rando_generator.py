@@ -5,7 +5,11 @@ import random
 
 
 def gen_random_list(size, max_value):
-    """generate a random list of numbers"""
+    """
+    size: int size of list
+    max_value: int max value of elements in list
+    return random generate list of size size
+    """
     return [random.randint(0, max_value) for _ in range(size)]
 
 # # shuffle list
