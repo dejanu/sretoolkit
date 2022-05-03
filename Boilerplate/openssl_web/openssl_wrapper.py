@@ -4,18 +4,18 @@
 from OpenSSL import crypto
 from OpenSSL import SSL
 from datetime import datetime
-import os
 from socket import socket, AF_INET, SOCK_STREAM
+import os
 import ssl
 import idna
 import subprocess
 
-
+# requirements pip install pyOpenSSL
 # SSL context = collection of cipher,protocol versions, trusted certs, TLS options
 # SSL session = each SSL connection involves one session at a time
 
 def validate_cert(cert_file_path):
-    """ check cert validity from local """
+    """ check cert validity from disk """
 
     if os.path.isfile(cert_file_path):
 
@@ -51,13 +51,13 @@ def get_server_subject(host, port = 443):
         conn.close()
     return expected_subjects
 
-
 def cmd_wrapper(cmd):
     """ wrapper for cmds with pipe """
     if isinstance(cmd,str):
-        proc = subprocess.Popen(cmd,stdin=subprocess.PIPE, shell=True)
+        proc = subprocess.Popen(cmd,stdin=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         proc_stdout,proc_stderr = proc.communicate()
-        return proc_stdout
+        # from bytes to string
+        return proc_stdout.decode("utf-8")
 
 if __name__ == "__main__":
 
@@ -65,5 +65,7 @@ if __name__ == "__main__":
     host = "deployment.machine.com"
     port = 5443
 
-    get_server_subject(host,port)
-    print(validate_cert(cert_path))
+    cmd = "openssl s_client -connect google.com:443 -showcerts |  openssl x509 -noout  -dates"
+    cert_dates=cmd_wrapper(cmd).strip().split("\n")
+
+    

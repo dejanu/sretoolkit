@@ -32,9 +32,9 @@ def index():
     lb_state = call_endpoint3(lb_url)
     
     # dict object to be used in render_template
-    # get pools as list
     pools_state = lb_state.get("state").get("pools")
     
+    # pass pools as list
     return render_template("index.html",pools_sts=pools_state)
 
 @app.route("/status", methods=['GET', 'POST'])
