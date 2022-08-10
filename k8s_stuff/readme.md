@@ -10,3 +10,5 @@ the containers that satisfy that spec
 - Non-Graceful Node Shutdown [graceful shutdown  only if the node shutdown action can be detected by the kubelet (daemon on each worker node) ahead of the actual shutdown]
 
 - Node Non-Graceful == node shutdown action takes place without the kubelet daemon (on each worker node) knwoing about it => pods on that node also shut down ungracefully.
+
+- https://www.containiq.com/post/kubernetes-events
