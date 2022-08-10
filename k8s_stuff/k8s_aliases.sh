@@ -2,7 +2,6 @@
 
 # include aliases by adding this line: [ -f $HOME/.k8s_aliases ] && . $HOME/.k8s_aliases and copying this file in $HOME location 
 
-
 __usage="
 \e[1;33m Aliases:\e[0m
   \e[0;32m kstate \e[0m   -  get cluster health 
