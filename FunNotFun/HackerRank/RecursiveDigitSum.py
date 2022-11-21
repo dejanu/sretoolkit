@@ -1,4 +1,6 @@
 
+# link: https://www.hackerrank.com/challenges/one-week-preparation-kit-recursive-digit-sum/problem
+
 ## Division (/) always returns a float.
 ## To do floor division and get an integer result (discarding any fractional result) you can use the // operator;
 ## To calculate the remainder you can use %:
