@@ -3,7 +3,7 @@
 ################################################################################################
 # kubectl wrapper that generates a report concerning cluster state,                           ##
 # which creates a dir with compiled information regarding:                                    ##
-#  - control plane components status, cluster events, nodes description, and namespace events ##                        
+#  - control plane components status, cluster events, nodes description, and namespace events ##
 ################################################################################################
 
 # Get nodes, componentsstatuses, and pods for control-plane
@@ -38,7 +38,7 @@ EOF
 
 # extracting cluster nodes info
 for no in $(kubectl get nodes -o=custom-columns=NAME:.metadata.name -A | awk '(NR>1)'); do
-   kubectl describe node $no > $REPORT_NAME/$no.txt  
+   kubectl describe node $no > $REPORT_NAME/$no.txt
 done
 
 echo -e "\e[0;32m Report generated -> $REPORT_NAME \e[0m"
