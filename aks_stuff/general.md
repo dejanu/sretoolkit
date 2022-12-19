@@ -49,4 +49,6 @@ az aks show -g <RESOURCE_GROUP_NAME> -n <Kubernetes_service_AKS_CLUSTER_NAME> | 
 - https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster?tabs=azure-cli
 - https://learn.microsoft.com/en-us/azure/quotas/regional-quota-requests
 - Zero downtime upgrade: https://omichels.github.io/zerodowntime-aks.html
+- Cheeatos page: https://dejanu.github.io/cheeatos/azure.html
+
 
