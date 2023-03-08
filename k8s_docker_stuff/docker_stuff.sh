@@ -1,8 +1,22 @@
 #!/bin/bash
 
-echo -e "\033[1;4;32;41mDocker daemon: \e[0m";
+
+# docker stats
 docker system info
-echo -e "\033[1;4;32;41mRunning Containers: \e[0m";
 docker ps --format 'table {{.Names}}\t{{.Status}}'
-echo "----------------------------------------------------"
 docker system df
+
+## Debug Docker
+sudo systemctl status docker
+sudo journalctl -xeu docker.service
+journalctl -u docker
+sudo systemctl daemon-reload
+sudodocker
+
+## service vs systemctl
+service docker restart
+systemctl start docker
+
+systemctl daemon-reload
+systemctl stop docker
+systemctl start docker
