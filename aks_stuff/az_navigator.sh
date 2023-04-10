@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 ############################################################################
-## SRE-Azure Tool wrapper                                                 ##
-##                                                                        ##     
+## Azure Tool Navigator:                                                  ##
+## Navigate between Subscriptions/Resource Groups                         ##     
 ############################################################################
 
 # check if azure cli is installed
