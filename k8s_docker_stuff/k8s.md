@@ -26,9 +26,29 @@ kubectl get pods --show-labels
 kubectl get pods -w (--watch)
 kubectl get pods -o json
 ```
-### Go templates
+### Go templates:
 ```bash
 # use custom columns
 kubectl get ns -o=custom-columns=NAMESPACE_NAME:.metadata.name
 kubectl get po -o=custom-columns=POD_NAME:.metadata.name
+```
+
+### Labels stuff:
+```bash
+# add/delete label for node
+kubectl label node <nodename> <labelname>=<value>
+kubectl label node <nodename> <labelname>-
+
+# get nodes witha certain label
+kubectl get nodes -l <label_name>=<label_value>
+
+# delete po with label=fluent-bit
+kubectl -n logging delete po -l app.kubernetes.io/instance=fluent-bit
+
+# delete po with label
+kubectl -n monitoring delete po -l app=prometheus-node-exporter
+
+# get pods with label app=flux from all namespaces
+kubectl get pod -A -l app=flux -oname
+kubectl -n monitoring get po -l "app=kiali" -oname
 ```
