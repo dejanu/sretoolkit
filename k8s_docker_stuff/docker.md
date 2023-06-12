@@ -1,6 +1,6 @@
-#!/bin/bash
+# Docker stuff
 
-
+```bash
 # docker stats
 docker system info
 docker ps --format 'table {{.Names}}\t{{.Status}}'
@@ -20,3 +20,4 @@ systemctl start docker
 systemctl daemon-reload
 systemctl stop docker
 systemctl start docker
+```
