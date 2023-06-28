@@ -1,9 +1,6 @@
 #!/usr/bin/python
 
-
-##Decorators : Function decorators and Class decorators (Structural Pattern)
-
-
+## Decorators : Function decorators and Class decorators (Structural Pattern)
 ## FUNCTION ARE OBJECTS:  function names are references to function objects
 
 def g():
@@ -14,20 +11,17 @@ def f(func):
     print("Hi i am F thanks for calling me")
     print("func's real name is " + func.__name__) 
 
-#passing to a variable a function reference
-i=g #can call i() now
-
-##pass as a parameter to a function a reference to a function aka a function object
+## passing to a variable a function reference can call i() to call function object
+i=g 
+## passing as a parameter to a function a reference to a function aka a function object
 f(i)
 
 
-
-#-----------------FuckedUp-decorators--------------------------
-
 def call_counter(func):
-    """ create calls attribute 
-	usage func.calls"""
-
+    """ 
+    create calls attribute 
+	usage func.calls
+    """
     def helper(*args):
         """increment attribute for the called function"""
         helper.calls+=1
@@ -46,7 +40,9 @@ print(succ.calls)#2
 
 
 def delay_execution(x):
-    """delay code execution by x ammount of seconds"""
+    """
+    delay code execution by x ammount of seconds
+    """
     def deco(f):
         def wrapper(*args):
             import time
@@ -56,16 +52,16 @@ def delay_execution(x):
     return deco
 
 def exec_time(f):
-    """ return elapsed time for function execution """
+    """ 
+    return elapsed time for function execution 
+    """
     def wrapper(*args):
         import time
         #return epoch as float
         start = time.time()
         #call decorated function
         f(*args)
-        end = time.time() - start
-        print(end)
-        print(time.ctime(end))
+        print(f"Elapsed time: {time.time()-start}")
     return wrapper
 
 @delay_execution(4)
@@ -83,10 +79,12 @@ def get_args_kwargs(function):
         def deco(*args, **kwargs):
               print (f"Function {function.__name__} called with args {args} and kwargs {kwargs}")
               return function(*args, **kwargs)
-          return deco
+        return deco
 
 def whois_calling():
-	""get the name of the caller function"""
+	"""
+    get the name of the caller function
+    """
 	import inspect
 	print (inspect.stack()[1][3])
 
@@ -127,7 +125,9 @@ print(texttwo("xela"))
 from functools import wraps
 
 def make_blink(function):
-    """define decorator"""
+    """
+    define decorator
+    """
 
     #this makes the decorator transparent in terms of
     # its __name__ and docstring
