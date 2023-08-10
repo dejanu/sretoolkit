@@ -1,14 +1,25 @@
 #!/usr/bin/env python3
 
 import requests
-from flask import request, jsonify, Flask, render_template
+from flask import Flask, render_template
 
-from prometheus_client import Gauge, Counter, generate_latest, CollectorRegistry
-
+from prometheus_client import Gauge, generate_latest
 
 from urllib3.exceptions import InsecureRequestWarning
 # Suppress only the single warning from urllib3 needed.
 requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
+
+def read_config(config_file):
+    """
+    config_file: str - name of the config file wich resides in /tmp/
+    """
+    try:
+        with open(f"/tmp/{config_file}","r") as f:
+            lines = [l.rstrip() for l in f.readlines()]
+        return lines
+    except FileNotFoundError:
+        raise FileNotFoundError(f"File {config_file} not found in /tmp/")
+
 
 class myMetrics:
 
@@ -20,8 +31,11 @@ class myMetrics:
     
     @staticmethod
     def curl_endpoint(url, with_json=True):
-        """Curl an endpoint and return the body as unicode text if with_json: False or body as json if with_json: True and status code"""
-        print("legoooo")
+        """
+        url: url str to curl
+        with_json: True/False return body as json/unicode text 
+        """
+        print("Calling endpoints...")
         try:
             r = requests.get(url, verify=False)  # Disable TLS certificate verification
             r.raise_for_status()  # Raise an exception for non-successful status codes 
@@ -74,6 +88,12 @@ class myMetrics:
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
+
+@app.route('/index')
+def index():
+    """ Home page """
+    return render_template('home.html')
+
 @app.route('/metrics')
 def metrics():
     """ Return promethues metrics """
@@ -84,16 +104,8 @@ def handle_500(error):
     return str(error), 500
 
 if __name__ == "__main__":
-    dev = myMetrics("dev.phi.projects.systematic-synergy.io")
-    # print(dev.cluster_base_domain)
-    # print(dev.get_vault_status())
-    # print(dev.get_registry_status())
-    # print(dev.get_console_status())
 
-
-    # # A separate registry is used, as the default registry may contain other metrics such as those from the Process Collector.
-    # registry = CollectorRegistry()
-    
+    # create gauge metric       
     g = Gauge('synergy_components', 'Gauge metric for Synergy main components',['cluster','vault','registry','console'])
     # if at least one component is unhealthy, the gauge will be 0
     # g.labels(....).set(0)
@@ -101,5 +113,11 @@ if __name__ == "__main__":
     g.labels(cluster=dev.cluster_base_domain, vault=dev.get_vault_status(), registry=dev.get_registry_status(), console=dev.get_console_status()).set_function(lambda: 0 if dev.get_vault_status() != "healthy" else 1)
     g.labels(cluster="mamita", vault=dev.get_vault_status(), registry=dev.get_registry_status(), console=dev.get_console_status()).set_function(lambda: 0 if dev.get_vault_status() != "healthy" else 1)
     
+    # create Metrics object for each cluster defined in the config file
+    for i in config:
+        cluster_obj = myMetrics(i)
+        # if at least one component is unhealthy, the gauge will be 0
+        g.labels(cluster=cluster_obj.cluster_base_domain, vault=cluster_obj.get_vault_status(), registry=cluster_obj.get_registry_status(), console=cluster_obj.get_console_status()).set_function(lambda: 0 if cluster_obj.get_vault_status() != "healthy" else 1)
+        # g.labels(....).set(0)
     
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8088)

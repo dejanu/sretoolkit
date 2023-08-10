@@ -27,22 +27,32 @@ az account list -o table --all
 
 # select and set subscription using subscription_id variable
 echo -e "$separator_stuff Select subscriptionId (e.g. 5a4600a1-a6ac-4b56-8364-00fbbd81f5de) :"
-read subscription_id
-az account set --subscription $subscription_id
+
+#read without -r will mangle backslashes.
+read -r subscription_id
+az account set --subscription "$subscription_id"
 
 # list all resource groups in the selected subscription
 echo -e "$separator_stuff Available RESOURCE GROUPS in the selected subscription:"
 #az group list -o table --query "[?contains(id, '$subscription_id')]"
 az group list -o table
 
-# select and set resource group using resource_group variable
-echo -e "$separator_stuff Select resource group :"
-read resource_group
+# list all resource groups in the selected subscription
+echo -e "$separator_stuff Available resource groups :"
+
+echo -e "Do you want to create a new resource group or use an existing one? (new/existing)"
+read resource_group_option
+if [ $resource_group_option == "new" ]; then
+    echo -e "Enter the name of the new resource group:"
+    read resource_group_name
+    echo -e "Enter the location of the new resource group (e.g. westeurope):"
+    read resource_group_location
+    az group create --name $resource_group_name --location $resource_group_location
+else
+    echo -e "Enter the name of the existing resource group:"
+    read resource_group
+fi
+
+
 echo -e "$separator_stuff Available RESOURCES in the $resource_group RESOURCE GROUP:"
 az resource list --query "[?resourceGroup=='$resource_group']" -o table
-
-# details of Azure resource consumption as an invoice for the selected resource 
-#az consumption usage list --subscription "$subscription_id" --query "[].{Name:instanceName, Product:product, Usage:usageQuantity}" -o table
-echo -e "$separator_stuff Azure consumption for Selected Subscription and  RESOURCE GROUP:"
-az consumption budget list --subscription "$subscription_id" -o table
-az consumption budget list -g '$resource_group' -o table
