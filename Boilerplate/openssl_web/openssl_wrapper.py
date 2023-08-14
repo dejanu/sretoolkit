@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
-
 from OpenSSL import crypto
 from OpenSSL import SSL
 from datetime import datetime
 from socket import socket, AF_INET, SOCK_STREAM
 import os
 import ssl
-import idna
+#import idna
 import subprocess
 
 # requirements pip install pyOpenSSL
@@ -61,11 +60,11 @@ def cmd_wrapper(cmd):
 
 if __name__ == "__main__":
 
-    cert_path = "path/to//cluster/cluster.cer"
-    host = "deployment.machine.com"
-    port = 5443
+    #cert_path = "/opt/synergy/prod/synergy-config/certs/cluster/cluster.cer"
+    #host = "deployment.gultsundhedskort.dk"
+    #port = 5443
 
-    cmd = "openssl s_client -connect google.com:443 -showcerts |  openssl x509 -noout  -dates"
+    cmd = "openssl s_client -connect deployment.gultsundhedskort.dk:5443 -showcerts |  openssl x509 -noout  -dates"
     cert_dates=cmd_wrapper(cmd).strip().split("\n")
 
     

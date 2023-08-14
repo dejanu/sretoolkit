@@ -1,15 +1,21 @@
 #!/bin/bash
 
+#######################################################
+## Azure AKS:                                        ##
+## Create AKS on the fly based on env vars           ##
+## AZLOCATION,AZGROUP,AKSNAME                        ##     
+#######################################################
+
 # list resource groups in the current subscription
 az group list -o table
+
 # list AKS clusters
 az aks list -o table
 
-# update location, resource group and cluster name variables
-# check if the variables are set as env vars if not default to the values az_location="westeurope" az_resource_group="myResourceGroup" az_cluster_name="myAKSCluster"
-az_location=${az_location:-"westus"}
-az_resource_group=${az_resource_group:-"demoSRE"}
-az_cluster_name=${az_cluster_name:-"demoAKS"}
+# check if the variables are set as env vars if not default to the values az_location="westeurope" az_resource_group="demoSRE" az_cluster_name="demoAKS"
+az_location=${AZLOCATION}:-"westus"}
+az_resource_group=${AZGROUP:-"demoSRE"}
+az_cluster_name=${AKSNAME:-"demoAKS"}
 
 # check if resource group exists if not create it
 if [ -z "$(az group exists -n $az_resource_group)" ]; then
@@ -23,7 +29,7 @@ fi
 az aks create \
     --resource-group $az_resource_group \
     --name $az_cluster_name \
-    --node-count 1 \
+    --node-count 2 \
     --enable-addons monitoring \
     --generate-ssh-keys
 

@@ -10,34 +10,35 @@
 </head>
 <body>
 
-  <div class="float-right">
-    <h6>Legend <span class="badge badge-secondary">New</span></h6>
-    <small class="text-muted">Not Before (Date): Certificate not valid before this date</small>
-    <br>
-    <small class="text-muted">Not After (Date): Certificate not valid after this date</small>
+<br>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Certs Explorer App</h1>
+    <p class="lead">Checks certs directly from the server or if can connect to server</p>
   </div>
-  <br>
-
-<hr>
+</div>
 
 
-<!-- read form
-<div class="container"> 
-<form>
-  <label for="fname">Registry:</label><br>
-  <input type="text" id="rname" name="rname" value="{{ registry }}"><br>
-</form>
-</div> -->
-
-
-<ul>
+<div class="container my-4">
+<div class="border border-light p-3 mb-4">
+<div class="text-center">
+  <p>Certs for {{registry}}</p>
+  <ul class="list-group list-group-flush">
     {% for d in cert_dates %}
-      <li>Date: <b>{{ d }}</b></li>
+    <li class="list-group-item list-group-item-success">Date: <b>{{ d }}</b></li>
     {% endfor %} 
 </ul>
+</div>
 
+<div class="float-right">
+  <h6>Legend <span class="badge badge-secondary">New</span></h6>
+  <small class="text-muted">Not Before (Date): Certificate not valid before this date</small>
+  <br>
+  <small class="text-muted">Not After (Date): Certificate not valid after this date</small>
+</div>
 
-
+</div>
+</div>
 
 </body>
 </html>

@@ -113,7 +113,7 @@ if __name__ == "__main__":
     # create Metrics object for each cluster defined in the config file
     for i in config:
         cluster_obj = myMetrics(i)
-        # if at least one component is unhealthy, the gauge will be 0
+        # if at least one component is unhealthy, the gauge will be 0 if vault is unhealthy
         g.labels(cluster=cluster_obj.cluster_base_domain, vault=cluster_obj.get_vault_status(), registry=cluster_obj.get_registry_status(), console=cluster_obj.get_console_status()).set_function(lambda: 0 if cluster_obj.get_vault_status() != "healthy" else 1)
         # g.labels(....).set(0)
     
