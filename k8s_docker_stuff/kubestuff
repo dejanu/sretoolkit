@@ -129,7 +129,6 @@ sudo apt-get update
 #======================================================================================================
 
 
-
 # create deployment webserver yaml file based on ngnix image
 kubectl create deploy webserver --image nginx:1.22.1 --replicas=2 --dry-run=client -o yaml | tee dep.yaml
 
@@ -151,3 +150,41 @@ kubectl rollout history deploy <deployment>
 kubectl create secret generic mysql --from-literal=password=root
 
 # configmap can be created from literal values, or individual files
+
+
+### Scheduling ======================================================================================================
+
+# check node labels
+kubectl describe nodes|grep -A5 -i label
+
+# check node taints
+kubectl describe nodes|grep -A5 -i taint
+
+# check how many containers are running on a specific node, ssh into the node and run
+sudo crictl ps | wc -lsudo crictl ps | wc -l
+
+# check the maximum number of pods supported by a node
+kubectl describe no <node> |  grep -i capacity -A10
+
+# check running pods on a specific node
+kubectl describe node <node> | grep -A10 "Non-terminated Pods"
+
+# label node
+kubectl label node <node> <label>=<label_values>
+
+# view nodes labels
+kubect get nodes --show-labels
+
+
+### Get container/images from pod ======================================================================================================
+
+# look at the specs
+kubectl explain pod.spec.containers
+
+# get container running in a SINGLE POD
+kubectl -n <namespace> get pod <pod_name>  -o jsonpath="{.spec.containers[*].name}"
+
+# get container running in a NAMESPACE
+kubectl -n <namespace>  get pod -o jsonpath="{.items[*].spec.containers[*].name}"
+
+### Get logs ======================================================================================================
