@@ -97,7 +97,6 @@ def index():
 @app.route('/metrics')
 def metrics():
     """ Return promethues metrics """
-    dev = myMetrics("dev.phi.projects.systematic-synergy.io")
     return generate_latest()
 
 @app.errorhandler(500)
@@ -108,7 +107,11 @@ if __name__ == "__main__":
 
     # create gauge metric       
     g = Gauge('synergy_components', 'Gauge metric for Synergy main components',['cluster','vault','registry','console'])
-    config = read_config("projects")
+    # if at least one component is unhealthy, the gauge will be 0
+    # g.labels(....).set(0)
+
+    g.labels(cluster=dev.cluster_base_domain, vault=dev.get_vault_status(), registry=dev.get_registry_status(), console=dev.get_console_status()).set_function(lambda: 0 if dev.get_vault_status() != "healthy" else 1)
+    g.labels(cluster="mamita", vault=dev.get_vault_status(), registry=dev.get_registry_status(), console=dev.get_console_status()).set_function(lambda: 0 if dev.get_vault_status() != "healthy" else 1)
     
     # create Metrics object for each cluster defined in the config file
     for i in config:
