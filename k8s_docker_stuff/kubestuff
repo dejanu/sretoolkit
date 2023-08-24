@@ -179,6 +179,11 @@ kubectl -n istio-system create secret generic ingress-cert-cacert --from-file=ca
 kubectl create secret generic <secret_name> --from-literal=MYSQL_ROOT_PASSWORD=test
 kubectl get secrets <secret_name> -o yaml > sqlsecret.yml
 
+
+# getting the  service account token that is used for authentication: kubernetes.io/service-account-token
+kubectl -n kube-system get secret default-token-gfnmr -oyaml
+kubectl -n kube-system get secret default-token-gfnmr -o jsonpath={.data.token} | base64 -d
+
 # configmap can be created from literal values, or individual files
 
 
