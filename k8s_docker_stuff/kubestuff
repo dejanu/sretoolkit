@@ -158,9 +158,26 @@ kubectl -n cal edit deploymnet rtro
 
 ## Secrets
 ======================================================================================================
+# Secret = key/value pairs of sensitive data that can be accessed by pods (encoded in base64) so describe will show opaque data 
 
 # create secret
 kubectl create secret generic mysql --from-literal=password=root
+
+# describe secret
+kubectl -n istio-system describe secret ingress-cert-cacert
+
+# take the ca.crt from secret
+kubectl get secrets -n istio-system ingress-cert-cacert -o json | jq -r '.data."ca.crt"' | base64 -d > ca.crt
+
+# delete secret
+kubectl -n istio-system delete secret ingress-cert-cacert
+
+# create ingress-cert-cacert
+kubectl -n istio-system create secret generic ingress-cert-cacert --from-file=ca.crt --from-file=Publiccert.cer
+
+# SECRETS example scenario
+kubectl create secret generic <secret_name> --from-literal=MYSQL_ROOT_PASSWORD=test
+kubectl get secrets <secret_name> -o yaml > sqlsecret.yml
 
 # configmap can be created from literal values, or individual files
 
