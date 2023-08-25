@@ -3,7 +3,6 @@
 # This script will inspect a pod and return the following information:
 # Containers running in the pod
 # Images used by the containers
-# Logs for each container
 
 # Usage: ./pod_inspector.sh <namespace>
 # Check if namespace is provided

@@ -1,13 +1,20 @@
 
 #!/usr/bin/env bash
 
-# This script will list and scan all images from the machine
 
-# save the output of docker images command to a variable
 
+# create function called scan_image which takes one argument: the image name
+scan_image() {
+    # tryvi scan
+    docker run --rm -v trivy-cache:/root/.cache/ -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image ${image}
+    # docker run --rm \
+        # --volume /var/run/docker.sock:/var/run/docker.sock \
+        # --name GrypeScanner anchore/grype:latest \
+        # ${i}
+}
+
+# echo to stdout images on host
 images=$(docker system info --format '{{ .Images}}')
-
-# echo to stdout the images
 echo "You have ${images} images on your machine:"
 docker images
 
@@ -19,7 +26,9 @@ for image in $(docker images --format "{{.Repository}}:{{.Tag}}")
         if [ "$answer" == "y" ]
         then
             echo "Scanning image: ${image}"
+            scan_image ${image}
         else
             echo "Skipping image: ${image}"
         fi
     done
+
