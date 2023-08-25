@@ -4,8 +4,7 @@
 # Containers running in the pod
 # Images used by the containers
 
-# Usage: ./pod_inspector.sh <namespace>
-# Check if namespace is provided
+# Check if namespace is provided as argument
 if [ -z "$1" ]
 then
     echo "Usage: ./pod_inspector.sh <namespace>"
