@@ -1,4 +1,5 @@
-# Creating Objects======================================================================================================
+# Creating Objects
+======================================================================================================
 ## IMPERATIVE Paradigm - no embedded history
 # kubectl run - creates deployment or jobs
 # kubectl expose - creates services
@@ -24,15 +25,19 @@ kubectl get pods basic -n sec1 -o jsonpath='{.status.podIP}'
 # ping from 
 kubectl -n sec1 exec -it pod2 -- ping $pod1IP
 
+# Creating SERVICEs
+======================================================================================================
+
+# creates a local service to access a ClusterIP, usefull for troubleshooting and provides quick way to check your service
+kubectl proxy
+
 # create service
 kubectl -n red expose po basic --name=cloudacademy-svc --type="ClusterIP" --port=8080 --target-port=80
 
 # Expose a Pod in the red Namespace with the following configuration: The Service name is cloudacademy, the Service port is8080, the Target port is80, the Service type isClusterIP
 kubectl expose pod basic -n red --name=cloudacademy-svc --port=8080 --target-port=80
 
-
 # create service NodePort on port 32080: expose deployment for an app that runs on port 80 Service 
-
 # The command will assign a random port >= 30000. So use the Patch command to assign the port to a known, unused and desired port >= 30000
 
 kubectl -n ca1 expose deployment cloudforce --name=cloudforce-svc --type="NodePort" --port=80
@@ -45,45 +50,24 @@ kubectl -n ca1 expose --type=NodePort deployment cloudforce --port 80 --name clo
 # create a nodeport service
 kubectl -n accounting expose deployment nginx-one --type=NodePort --name=service-lab
 
-
 # spin up pod that run curl to a service
 kubectl run client -n skynet --image=appropriate/curl -it --rm --restart=Never -- curl http://t2-svc:8080 > /home/ubuntu/svc-output.txt
 
-# create deployment named rtro
-kubectl -n cal create deployment rtro --image=busybox:1.31.1
-kubectl -n cal edit deploymnet rtro
- spec:
-      containers:
-      - args:
-        - sleep
-        - 24h
-        image: busybox:1.31.1
-        imagePullPolicy: IfNotPresent
-        name: busybox
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext:
-        runAsGroup: 10000
-        runAsUser: 1000
-      terminationGracePeriodSeconds: 30
-      
-      
-### Upgrade K8s ======================================================================================================
 
+## Upgrade K8s cluster (worker/cp)
+======================================================================================================
 
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
+# check kubelet status
+systemctl status kubelet.service
+
 # drain worker node, draining will cordon the node also (do not forget to uncordon the node)
 kubectl drain --ignore-daemonsets <node>
 
 # ssh into the worker node
-
 # Update the package index
 sudo apt-get update
 
@@ -112,7 +96,6 @@ sudo systemctl restart kubelet
 # All containers are restarted after upgrade, because the container spec hash value is changed.
 
 
-
 # Update packages required for HTTPS package repository access
 sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release
 
@@ -125,9 +108,14 @@ sudo add-apt-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
 # Update the package index to include the Kubernetes repository
 sudo apt-get update
 
+# create control plane node
+kubeadm init
 
-#======================================================================================================
+# create worker node
+kubeadm join
 
+## Deployments
+======================================================================================================
 
 # create deployment webserver yaml file based on ngnix image
 kubectl create deploy webserver --image nginx:1.22.1 --replicas=2 --dry-run=client -o yaml | tee dep.yaml
@@ -145,15 +133,62 @@ kubectl rollout undo
 # view object revisions
 kubectl rollout history deploy <deployment>
 
+# create deployment named rtro
+kubectl -n cal create deployment rtro --image=busybox:1.31.1
+kubectl -n cal edit deploymnet rtro
+ spec:
+      containers:
+      - args:
+        - sleep
+        - 24h
+        image: busybox:1.31.1
+        imagePullPolicy: IfNotPresent
+        name: busybox
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        runAsGroup: 10000
+        runAsUser: 1000
+      terminationGracePeriodSeconds: 30
+
+
+## Secrets
+======================================================================================================
+# Secret = key/value pairs of sensitive data that can be accessed by pods (encoded in base64) so describe will show opaque data 
 
 # create secret
 kubectl create secret generic mysql --from-literal=password=root
 
+# describe secret
+kubectl -n istio-system describe secret ingress-cert-cacert
+
+# take the ca.crt from secret
+kubectl get secrets -n istio-system ingress-cert-cacert -o json | jq -r '.data."ca.crt"' | base64 -d > ca.crt
+
+# delete secret
+kubectl -n istio-system delete secret ingress-cert-cacert
+
+# create ingress-cert-cacert
+kubectl -n istio-system create secret generic ingress-cert-cacert --from-file=ca.crt --from-file=Publiccert.cer
+
+# SECRETS example scenario
+kubectl create secret generic <secret_name> --from-literal=MYSQL_ROOT_PASSWORD=test
+kubectl get secrets <secret_name> -o yaml > sqlsecret.yml
+
+
+# getting the  service account token that is used for authentication: kubernetes.io/service-account-token
+kubectl -n kube-system get secret default-token-gfnmr -oyaml
+kubectl -n kube-system get secret default-token-gfnmr -o jsonpath={.data.token} | base64 -d
+
 # configmap can be created from literal values, or individual files
 
 
-### Scheduling ======================================================================================================
-
+## Scheduling 
+======================================================================================================
 # check node labels
 kubectl describe nodes|grep -A5 -i label
 
@@ -176,7 +211,8 @@ kubectl label node <node> <label>=<label_values>
 kubect get nodes --show-labels
 
 
-### Get container/images from pod ======================================================================================================
+## Get container/images from pod
+======================================================================================================
 
 # look at the specs
 kubectl explain pod.spec.containers
@@ -187,4 +223,12 @@ kubectl -n <namespace> get pod <pod_name>  -o jsonpath="{.spec.containers[*].nam
 # get container running in a NAMESPACE
 kubectl -n <namespace>  get pod -o jsonpath="{.items[*].spec.containers[*].name}"
 
-### Get logs ======================================================================================================
+
+## Storage
+======================================================================================================
+
+# get persistent volumes aka storage abstraction
+kubectl get pv
+
+# get  persistent volume claims 
+kubectl get pvc
