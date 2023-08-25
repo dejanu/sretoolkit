@@ -5,12 +5,14 @@
 
 # create function called scan_image which takes one argument: the image name
 scan_image() {
-    # tryvi scan
+    # trivy scan
     docker run --rm -v trivy-cache:/root/.cache/ -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image ${image}
     # docker run --rm \
         # --volume /var/run/docker.sock:/var/run/docker.sock \
         # --name GrypeScanner anchore/grype:latest \
         # ${i}
+    
+    #
 }
 
 # echo to stdout images on host
