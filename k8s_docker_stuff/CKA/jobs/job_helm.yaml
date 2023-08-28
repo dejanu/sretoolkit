@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: helmclean
+spec:
+  template:
+    spec:
+      containers:
+      - name: helmjanitor
+        image: bitnami/kubectl:latest
+        command: ["kubectl",  "get", "po"]
+        #command: ["kubectl", "get", "hr", "-o jsonpath='{.status.releaseStatus}') != 'deployed'"]
+      restartPolicy: Never
+  backoffLimit: 4

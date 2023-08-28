@@ -28,3 +28,13 @@ kubectl get hr -A
 # these are deployed with helm
 helm list -A -o json | jq -r '.[].name'
 ```
+
+## RBAC
+
+* Permissions are granted to a ServiceAccount
+```bash
+# check api resources and verbs
+kubectl api-resources -owide
+```
+* ServiceAccount --> Role --> RoleBinding
+
