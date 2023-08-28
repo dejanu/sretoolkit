@@ -8,7 +8,7 @@ spec:
       containers:
       - name: helmjanitor
         image: bitnami/kubectl:latest
-        command: ["kubectl",  "get", "po"]
-        #command: ["kubectl", "get", "hr", "-o jsonpath='{.status.releaseStatus}') != 'deployed'"]
+        #command: ["kubectl",  "get", "po"]
+        command: ["kubectl", "get", "hr"]
       restartPolicy: Never
   backoffLimit: 4
