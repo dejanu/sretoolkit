@@ -52,7 +52,9 @@ def sort_keys(d):
 
 
 # sort dict a by values
-{k: v for k, v in sorted(a.items(), key=lambda i: i[1])}
+def sort_value(d):
+      # sort keys based on values
+      return {k:v for k, v in sorted(d.items(), key=lambda i: i[1])}
 
 
 def unqiue_values_dict(d):

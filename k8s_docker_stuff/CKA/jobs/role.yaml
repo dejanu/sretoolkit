@@ -4,6 +4,6 @@ metadata:
   namespace: test1
   name: hr-reader-role
 rules:
-- apiGroups: [""]
-  resources: ["helmrelease"]
-  verbs: ["list"]
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pod"]
+  verbs: ["get", "watch", "list"]

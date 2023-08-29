@@ -26,7 +26,7 @@ kubectl get hr -A
 helm list -A -o json | jq -r '.[].name'
 
 # create job
-kubectl apply -f job-helm.yaml
+kubectl apply -f job_helm.yaml
 kubectl logs jobs/helmclean
 ```
 

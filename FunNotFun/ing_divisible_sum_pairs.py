@@ -4,13 +4,13 @@
 
 def divisibleSumPairs(n, k, ar):
    """ nice nested iteration """ 
-    c = 0
-    for i in range(n-1):
-        for j in range(i+1,n):
-            if ((ar[i] + ar[j])%k == 0):
-                c+=1
-            else:
-                pass
+   c = 0
+   for i in range(n-1):
+    for j in range(i+1,n):
+        if ((ar[i] + ar[j])%k == 0):
+            c+=1
+        else:
+            pass
     return c
 
 

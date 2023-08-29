@@ -1,11 +1,17 @@
+#!/usr/bin/env python3
+
+# Given an array of integers nums, calculate the pivot index of this array.
+# The pivot index is the index where the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the index's right.
+
+# https://leetcode.com/problems/find-pivot-index/
+
 def testequilibrium(arr):
     """ Equilibrium index of an array is an index such that the sum of elements at 
     lower indexes is equal to the sum of elements at higher    """
     
     n = len(arr) 
-  
-    # Check for indexes one by one  
-    # until an equilibrium index is found 
+
+    # Check for indexes one by one  until an equilibrium index is found 
     for i in range(n): 
         leftsum = 0
         rightsum = 0
@@ -27,17 +33,6 @@ def testequilibrium(arr):
     return -1
 
 
-def myequi(l):
-    for i in range(len(l)):
-        ss = 0
-        sd = 0
-        for j in range(i):
-            ss+=l[j]
-        for j in range(i+1,len(l)):
-            sd+=l[j]
-        if ss == sd:
-            return i
-    return -1
 
 if __name__ == "__main__":
 
