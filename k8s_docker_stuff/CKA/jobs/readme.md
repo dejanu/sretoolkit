@@ -37,5 +37,7 @@ kubectl logs jobs/helmclean
 # check api resources and verbs
 kubectl api-resources -owide
 ```
-* ServiceAccount --> Role --> RoleBinding
+* ServiceAccount --> Role (rules for API groups) --> RoleBinding (binds role to service account or user)
+
+
 

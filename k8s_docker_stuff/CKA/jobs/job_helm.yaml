@@ -9,8 +9,9 @@ spec:
     spec:
       containers:
       - name: helmjanitor
-        image: bitnami/kubectl:latest
+        # image: bitnami/kubectl:latest
+        image: dejanualex/kubectl:1.0
         command: ["kubectl",  "get", "po"]
-        # command: ["kubectl", "get", "hr"]
+      serviceAccountName: default
       restartPolicy: Never
   backoffLimit: 4

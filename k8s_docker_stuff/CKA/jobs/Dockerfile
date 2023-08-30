@@ -8,7 +8,6 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
     && chmod +x kubectl \
     && mv kubectl /usr/local/bin/
 
-
 # Copy your script
 COPY helmrelease_status.sh /helmrelease_status.sh
 RUN chmod +x /helmrelease_status.sh

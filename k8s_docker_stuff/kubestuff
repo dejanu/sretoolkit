@@ -10,6 +10,10 @@
 kubectl create deployment nginx --image=nginx
 kubectl create deployment webapp --image=nginx:1.17.8 --replicas=2
 
+# Create a pod with a shell
+kubectl run -i --tty busybox --image=busybox --restart=Never -- sh
+kubectl run -i --tty mykube --image=dejanualex/kubectl:1.0 --restart=Never -- sh
+
 # Create a pod (the minimum needed flag is --image)
 kubectl run nginx --image=nginx
 # Create a pod named basic with port 80 open to TCP
@@ -59,7 +63,6 @@ kubectl -n accounting expose deployment nginx-one --type=NodePort --name=service
 # spin up pod that run curl to a service
 kubectl run client -n skynet --image=appropriate/curl -it --rm --restart=Never -- curl http://t2-svc:8080 > /home/ubuntu/svc-output.txt
 
-
 ## Upgrade K8s cluster (worker/cp)
 ======================================================================================================
 
@@ -90,7 +93,6 @@ sudo apt-get install -y kubeadm=1.26.3-00 kubelet=1.26.3-00 kubectl=1.26.3-00
 
 # prevent automatic updates to the following packages
 sudo apt-mark hold kubelet kubectl kubeadm
-
 
 # For worker nodes this upgrades the local kubelet configuration: /var/lib/kubelet/config.yaml
 # update kubelet configuration for worker node
@@ -176,10 +178,13 @@ kubectl -n istio-system create secret generic ingress-cert-cacert --from-file=ca
 kubectl create secret generic <secret_name> --from-literal=MYSQL_ROOT_PASSWORD=test
 kubectl get secrets <secret_name> -o yaml > sqlsecret.yml
 
+# service accounts have token as a secret
+kubectl -n test1 get sa <sa_name> -ojson | jq -r '.secrets[].name'
 
 # getting the  service account token that is used for authentication: kubernetes.io/service-account-token
 kubectl -n kube-system get secret default-token-gfnmr -oyaml
 kubectl -n kube-system get secret default-token-gfnmr -o jsonpath={.data.token} | base64 -d
+TOKEN=$(kubectl  get secret default-token-zc7s7 -o json |  jq -r '.data."token"' | base64 -d )
 
 # configmap can be created from literal values, or individual files
 
@@ -234,3 +239,21 @@ kubectl get pvc
 ======================================================================================================
 # Create a cronjob named matrix in the saas namespace. Use the radial/busyboxplus:curl image and set the schedule to */10 * * * *. The job should run the following command: curl www.google.com
 kubectl -n saas create cronjob --image=radial/busyboxplus:curl --schedule='*/10 * * * *' matrix -- curl www.google.com
+
+
+## Object intro
+======================================================================================================
+
+kubectl explain hr.status.phase
+kubectl -n prod get hr -ojsonpath={.items[*].status.phase}
+
+# https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/
+
+
+kubectl get po -A -o jsonpath='{.items[*].status}' | jq . | grep -i phase
+kubectl get po -A  --field-selector status.phase=Running
+
+kubectl get hr -A -o jsonpath="{range.items[?(@.status.phase)]}{.metadata.name}:{end}"| tr ":" "\n"
+
+# field type
+kubectl get events --field-selector type=Warning -A
