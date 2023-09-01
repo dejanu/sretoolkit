@@ -15,3 +15,4 @@ kubectl get no -o go-template='{{.items}}'
 
 # range comes in; it takes an array, slice, map, or channel and loops through
 kubectl get no -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'
+

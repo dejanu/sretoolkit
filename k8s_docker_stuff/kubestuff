@@ -102,6 +102,8 @@ sudo systemctl daemon-reload
 sudo systemctl restart kubelet
 
 # All containers are restarted after upgrade, because the container spec hash value is changed.
+# check containers in po
+kubectl get po  -o jsonpath="{.items[*].spec.containers[*]}" | jq .
 
 
 # Update packages required for HTTPS package repository access
@@ -136,7 +138,7 @@ kubectl rollout history deployment <deployment_name>
 
 # change the base image for the deployment
 kubectl set image deploy webserver nginx=nginx:1.23.1-alpine
-kubectl  set image deployment.v1.apps/cloudforce nginx=nginx:1.19.0-perl
+kubectl set image deployment.v1.apps/cloudforce nginx=nginx:1.19.0-perl
 
 # To manage the deployment history, use the annotate command to create a message.
 kubectl annotate deployment cloudforce kubernetes.io/change-cause="set image to nginx:1.19.0-perl" --overwrite=true
