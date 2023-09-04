@@ -9,12 +9,12 @@
 
 __usage="
 \e[1;33m Aliases:\e[0m
-  \e[0;32m kstate \e[0m   -  get cluster health
+  \e[0;32m kstate \e[0m   - get cluster health
   \e[0;32m knodes \e[0m - list cluster nodes
   \e[0;32m vaultstatus \e[0m - check vault status
-  \e[0;32m kpods_notrunning \e[0m - list all pods which are NOT running from all namespaces e.g: Failed/Error/Completed
-  \e[0;32m kpods_running \e[0m - list all  pods running with problems from all namespaces e.g: CrashLoopBackOff
   \e[0;32m registry \e[0m - private registry containers
+  \e[0;32m kpods_notrunning \e[0m - list all pods which are NOT running from all namespaces e.g: Failed/Error/Completed
+  \e[0;32m kpods_running \e[0m - list all  pods running with problems from all namespaces e.g: CrashLoopBackOffv
   \e[0;32m ko <object> \e[0m - list all <object> from all namespaces (e.g: po/svc/deployment/pv/rs/hr)
   \e[0;32m khr \e[0m - check the status of all helm realease
 
@@ -33,10 +33,10 @@ alias kpods_running='kubectl get po -A|grep -E "ImagePullBackOff|CrashLoopBackOf
 # check pods which are running with problems that have the state Completed/Error
 alias kpods_notrunning='kubectl get pods -A --field-selector=status.phase!=Running'
 # get the status of a pod
-kubectl get po -ojsonpath='{.items[*].status.phase}' -A
+# kubectl get po -ojsonpath='{.items[*].status.phase}' -A
 
 # get the status of all helm releases
-alias khr=$(kubectl get hr -A -o jsonpath='{range .items[*]}{.metadata.namespace}/{.metadata.name}: {.status.releaseStatus}{"\n"}{end}')
+alias khr='kubectl get hr -A -o jsonpath="{range .items[*]}{.metadata.namespace}/{.metadata.name}: {.status.releaseStatus}{\"\n\"}{end}"'
 
 # running containers status
 alias registry='docker ps --format "table {{.Names}} {{.Status}}"'
@@ -45,6 +45,3 @@ alias vaultstatus='kubectl get po -n vault&&kubectl -n vault exec vault-0 -- vau
 
 # list all obj type from all namespaces, usage: ko po/svc/deployment/pv/rs/hr
 alias ko='f(){ kubectl get $1 -A -o go-template="{{range .items}} --> {{.metadata.name}} in NAMESPACE: {{.metadata.namespace}}{{\"\n\"}}{{end}}"; unset -f f; }; f'
-
-
-
