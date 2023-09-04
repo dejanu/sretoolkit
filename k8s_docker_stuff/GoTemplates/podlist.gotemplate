@@ -1,0 +1,2 @@
+// Pods in namespace:
+{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}

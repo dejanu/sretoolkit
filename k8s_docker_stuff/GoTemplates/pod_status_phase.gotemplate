@@ -1,0 +1,5 @@
+{{- range .items -}}
+    {{"    "}}POD: {{.metadata.name}}
+    NODE: {{.spec.nodeName}}
+    PHASE: {{.status.phase}}{{"\n"}}
+{{- end -}}

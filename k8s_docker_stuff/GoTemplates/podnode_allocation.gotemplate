@@ -1,0 +1,4 @@
+// Pod node allocation: {{"\n"}}
+{{- range .items -}}
+    POD: {{.metadata.name -}} running on NODE: {{.spec.nodeName}}{{"\n"}}
+{{- end -}}
