@@ -1,7 +1,8 @@
 # Creating Objects
 ======================================================================================================
 ## IMPERATIVE Paradigm - no embedded history
-# kubectl run - creates deployment or jobs
+# kubectl create - create a resource from a file or STDIN
+# kubectl run - create and run a particular image in a pod. creates deployment or jobs
 # kubectl expose - creates services
 # kubectl set,edit,patch - top dog
 # kubectl replace -f deployment.yaml --save-config
