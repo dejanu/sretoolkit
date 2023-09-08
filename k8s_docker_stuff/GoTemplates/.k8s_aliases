@@ -9,7 +9,7 @@
 
 __usage="
 \e[1;33m Aliases:\e[0m
-  \e[0;32m kstate \e[0m   - get cluster health
+  \e[0;32m kstate \e[0m - get cluster health
   \e[0;32m knodes \e[0m - list cluster nodes
   \e[0;32m vaultstatus \e[0m - check vault status
   \e[0;32m registry \e[0m - private registry containers

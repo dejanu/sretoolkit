@@ -15,6 +15,10 @@ kubectl create deployment webapp --image=nginx:1.17.8 --replicas=2
 kubectl run -i --tty busybox --image=busybox --restart=Never -- sh
 kubectl run -i --tty mykube --image=dejanualex/kubectl:1.0 --restart=Never -- sh
 
+# naked broken 
+kubectl run broken --image=dejanualex/kubectl:99 --restart=Never
+kubectl run ephemeral-demo --image=registry.k8s.io/pause:3.1 --restart=Never
+
 # Create a pod (the minimum needed flag is --image)
 kubectl run nginx --image=nginx
 # Create a pod named basic with port 80 open to TCP

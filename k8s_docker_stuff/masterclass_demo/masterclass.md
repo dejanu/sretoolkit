@@ -8,7 +8,6 @@ kubectl create -f FILENAME
 
 # create a deployment with 2 pods running nginx
 kubectl create deployment webapp --image=nginx:1.17.8 --replicas=2 --dry-run=client -oyaml
-
 kubectl create deployment webapp --image=nginx:1.17.8 --replicas=2 -oyaml > first_deployment.yaml
 
 # create service object which serves on port 80 (container port) and connects to the containers on port 8000(pod port)
@@ -32,6 +31,28 @@ kubectl edit deploy webapp
 kubectl rollout history deploy <deployment>
 ```
 
+# Warming up
+```bash
+# show the obj
+kubect explain po
+
+# spec vs status
+kubectl explain po.status
+kubectl explain po.spec
+
+# kubectl <command> --v=<verbosity_level> 
+# 9 being Display HTTP request contents without truncation of contents.
+# remember to show this output 1299 request.go:1154] Response Body: {"kind":"Table","apiVersion":"meta.k8s.io/v1","metadata":{"resourceVersion":"510256484"},
+kubectl get no -v=9
+
+# an object is a resource which is actually an endpoint in k8s
+kubectl api-resources
+kubectl get crd
+
+# flex
+kubectl top no
+kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes" | jq .items[].usage
+```
 
 ## Links:
 
