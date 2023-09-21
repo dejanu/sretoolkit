@@ -4,5 +4,9 @@
 * Start container with interactive shell:
 `docker run -itu 0 dejanualex/openssl:1.0  /bin/sh`
 * Start pod with interactive shell:
-`kubectl  run myopenssl -i --tty --image=dejanualex/openssl:1.0  -- sh`
+```bash
+kubectl  run myopenssl -i --tty --image=dejanualex/openssl:1.0  -- sh
+# if Session ended, resume using
+kubectl  attach myopenssl -c myopenssl -i -t
+```
 * Dockerhub repo [openssl](https://hub.docker.com/repository/docker/dejanualex/openssl/general)
