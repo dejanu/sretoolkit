@@ -40,6 +40,11 @@ kubectl -n sec1 exec -it pod2 -- ping $pod1IP
 # overwrite po label
 kubectl label po <pod_name> sidecar.istio.io/inject=false --overwrite
 
+# start po with label e.g. set sidecar.istio.io/inject to false
+kubectl run istiomssql -i --tty --labels=sidecar.istio.io/inject="false" --image=mcr.microsoft.com/mssql-tools:latest
+# attach tty
+kubectl attach istiomssql -c istiomssql -i -t
+
 # Creating SERVICEs
 ======================================================================================================
 
@@ -109,7 +114,6 @@ sudo systemctl restart kubelet
 # All containers are restarted after upgrade, because the container spec hash value is changed.
 # check containers in po
 kubectl get po  -o jsonpath="{.items[*].spec.containers[*]}" | jq .
-
 
 # Update packages required for HTTPS package repository access
 sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release
