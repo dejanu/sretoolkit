@@ -49,6 +49,12 @@ kubectl get no -v=9
 kubectl api-resources
 kubectl get crd
 
+# check available API resources: cm,deployments,ds,ingress,ns,pods,rc,rs,secrets,svc
+kubectl api-resources
+
+# check api services in the cluster: v1.certificates.k8s.io, v1.networking.io
+kubectl get apiservices
+
 # flex
 kubectl top no
 kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes" | jq .items[].usage
