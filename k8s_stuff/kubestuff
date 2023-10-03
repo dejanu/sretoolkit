@@ -249,6 +249,9 @@ kubectl get pv
 # get  persistent volume claims 
 kubectl get pvc
 
+# get storage capacity and name
+kubectl get pv -A -o=custom-columns="Storage:.spec.capacity.storage, NAME:.metadata.name"
+
 ## Cron
 ======================================================================================================
 # Create a cronjob named matrix in the saas namespace. Use the radial/busyboxplus:curl image and set the schedule to */10 * * * *. The job should run the following command: curl www.google.com
