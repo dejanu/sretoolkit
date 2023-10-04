@@ -239,6 +239,11 @@ kubectl -n <namespace> get pod <pod_name>  -o jsonpath="{.spec.containers[*].nam
 # get container running in a NAMESPACE
 kubectl -n <namespace>  get pod -o jsonpath="{.items[*].spec.containers[*].name}"
 
+# get containers in a certain pod 
+kubectl get pods <pod_name> -o jsonpath='{.spec.containers[*].name}'
+# get containers in namespace
+kubectl get pods -o=custom-columns=NAME:.metadata.name,CONTAINERS:.spec.containers[*].name 
+
 
 ## Storage
 ======================================================================================================
