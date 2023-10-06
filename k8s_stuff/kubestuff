@@ -54,6 +54,9 @@ kubectl debug pods/mssql --image nicolaka/netshoot -it --target mssql -- bash
 # creates a local service to access a ClusterIP, usefull for troubleshooting and provides quick way to check your service
 kubectl proxy
 
+# tunnel traffic: forward connection to a local port:8080 to a port on a pod:80
+kubectl port-forward pod/<pod_name> 8080:80
+
 # create service
 kubectl -n red expose po basic --name=cloudacademy-svc --type="ClusterIP" --port=8080 --target-port=80
 
@@ -226,6 +229,12 @@ kubectl label node <node> <label>=<label_values>
 # view nodes labels
 kubect get nodes --show-labels
 
+# labels 101 for pods
+kubectl get po --show-labels
+# check all values for pods with label env
+kubectl get po -L env
+# get pod with label env=demo
+kubectl get po -l env=demo
 
 ## Get container/images from pod
 ======================================================================================================
