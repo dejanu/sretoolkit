@@ -151,7 +151,7 @@ kubectl get deploy <deployment> -o yaml | grep -A 4 strategy
 # check previous rollout revision
 kubectl rollout history deployment <deployment_name>
 
-# change the base image for the deployment
+# change the base image for the deployment aka trigger deployment rollout
 kubectl set image deploy webserver nginx=nginx:1.23.1-alpine
 kubectl set image deployment.v1.apps/cloudforce nginx=nginx:1.19.0-perl
 
