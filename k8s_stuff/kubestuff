@@ -1,7 +1,11 @@
-# Creating Objects
+# Creating Resources/Objects
 ======================================================================================================
-## IMPERATIVE Paradigm - no embedded history
-# kubectl create - create a resource from a file or STDIN
+# IMPERATIVE Paradigm - no embedded history
+kubectl create -f (from FILE or STDIN) # if the resource exists it will error
+
+# DECLARATIVE Paradigm
+kubectl apply -f (from FILE or STDIN)
+
 # kubectl run - create and run a particular image in a pod. creates deployment or jobs
 # kubectl expose - creates services
 # kubectl set,edit,patch - top dog
