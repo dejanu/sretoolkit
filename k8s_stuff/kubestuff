@@ -159,18 +159,22 @@ kubectl set image deployment.v1.apps/cloudforce nginx=nginx:1.19.0-perl
 kubectl annotate deployment cloudforce kubernetes.io/change-cause="set image to nginx:1.19.0-perl" --overwrite=true
 
 # Deployment strategies / Update strategies: RollingUpdate vs. Recreate 
-# return to a previous version
-kubectl rollout undo
+
+# rolling deployment is the default deployment strategy 
+kubectl rollout status deloy/<deployment_name>
 
 # view object revisions
 kubectl rollout history deploy <deployment>
+
+# return to a previous version
+kubectl rollout undo
 
 # create deployment named rtro
 kubectl -n cal create deployment rtro --image=busybox:1.31.1
 
 # autoscale deployments
 # horizontalpodautoscaler.autoscaling: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
-kubectl  autoscale deployment <deployment> --cpu-percent=65 --min=2 --max=4
+kubectl autoscale deployment <deployment> --cpu-percent=65 --min=2 --max=4
 
 ## Secrets
 ======================================================================================================
