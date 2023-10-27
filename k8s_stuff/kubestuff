@@ -314,5 +314,8 @@ kubectl get --raw "/healthz?verbose"
 kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes"
 kubectl get --raw /apis/metrics.k8s.io/v1beta1/nodes | jq .items[].usage
 
+# kubect top pods
+kubectl get --raw /apis/metrics.k8s.io/v1beta1/pods | jq .items[].containers[].usage
+
 # ingress endpoint
 kubectl get --raw "/apis/networking.k8s.io/v1/ingresses/"
