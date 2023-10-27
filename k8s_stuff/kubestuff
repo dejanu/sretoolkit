@@ -310,8 +310,9 @@ kubectl get --raw '/livez?verbose'
 kubectl get --raw '/readyz?verbose'
 kubectl get --raw "/healthz?verbose"    
 
-# kubectl top nodes
+# kubectl top nodes GET /apis/apiregistration.k8s.io/v1/apiservices/{name}/status
 kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes"
+kubectl get --raw /apis/metrics.k8s.io/v1beta1/nodes | jq .items[].usage
 
 # ingress endpoint
 kubectl get --raw "/apis/networking.k8s.io/v1/ingresses/"
