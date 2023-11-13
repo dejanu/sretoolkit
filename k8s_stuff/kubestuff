@@ -162,7 +162,8 @@ kubectl set image deployment.v1.apps/cloudforce nginx=nginx:1.19.0-perl
 # To manage the deployment history, use the annotate command to create a message.
 kubectl annotate deployment cloudforce kubernetes.io/change-cause="set image to nginx:1.19.0-perl" --overwrite=true
 
-# Deployment strategies / Update strategies: RollingUpdate vs. Recreate 
+# Deployment strategies / Update strategies: RollingUpdate vs. Recreate
+# are defined under spec.strategy in the manifests
 
 # rolling deployment is the default deployment strategy 
 kubectl rollout status deloy/<deployment_name>
