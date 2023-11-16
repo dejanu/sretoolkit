@@ -30,11 +30,12 @@ kubectl run -n red --image=nginx:stable-alpine-perl --restart=OnFailure --port=8
 # Create a pod using  dry-run, e.g. the --image option is required
 kubectl -run --image=nginx:stable-alpine-perl basic --dry-run=client -o yaml
 
-# discover the IP of all pods in sec1 namespace
-kubectl -n sec1 get po -ojsonpath={.items[*].status.podIP}
-
-# discover the IP of po named basic
-kubectl get pods basic -n sec1 -o jsonpath='{.status.podIP}'
+# discover the IP of all pods in test namespace
+kubectl -n test get po -ojsonpath={.items[*].status.podIP}
+# discover the IP of pod named testpo in test namespace
+kubectl -n test get pod testpo -o jsonpath='{.status.podIP}'
+# sort pods by IPs in test namespace
+kubectl -n test get po -o wide --sort-by=.status.podIP
 
 # ping from 
 kubectl -n sec1 exec -it pod2 -- ping $pod1IP
@@ -177,8 +178,9 @@ kubectl rollout undo
 # create deployment named rtro
 kubectl -n cal create deployment rtro --image=busybox:1.31.1
 
-# autoscale deployments
+# autoscale deployments: Autoscaling creates a HorizontalPodAutoscaler
 # horizontalpodautoscaler.autoscaling: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+# this deployment to autoscale based on CPU utilisation. The autoscaling should be set for a minimum of 2, maximum of 4, and CPU usage of 65%.
 kubectl autoscale deployment <deployment> --cpu-percent=65 --min=2 --max=4
 
 ## Secrets
@@ -244,6 +246,9 @@ kubectl get po --show-labels
 kubectl get po -L env
 # get pod with label env=demo
 kubectl get po -l env=demo
+
+# get po with label colour in (orange,red,yellow) values and sort by column
+kubectl -n rep get po -l "colour in (orange,red,yellow)" -owide | sort -k 5 |  awk '{ print $1 }'
 
 ## Get container/images from pod
 ======================================================================================================
