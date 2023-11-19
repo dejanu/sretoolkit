@@ -30,12 +30,14 @@ kubectl run -n red --image=nginx:stable-alpine-perl --restart=OnFailure --port=8
 # Create a pod using  dry-run, e.g. the --image option is required
 kubectl -run --image=nginx:stable-alpine-perl basic --dry-run=client -o yaml
 
-# commmand vs arg for pod 
-# creates args 
-kubectl -n ca200 run borg1 --image=busybox --restart=Always -oyaml --dry-run=client -- /bin/sh -c "echo working... && sleep 3600"
+# commmand vs arg: command coresponds to ENTRYPOINT and args corresponds to CMD instruction: 
+# give cmd
+kubectl run borg1 --image=busybox --restart=Always --command -- /bin/sh -c "echo working... && sleep 3600"
 
-# to check for command
-https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_run/
+# gives args
+kubectl run borg2 --image=busybox --restart=Always -- /bin/sh -c "echo working... && sleep 3600"
+
+# what doc: https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_run/
 
 # discover the IP of all pods in test namespace
 kubectl -n test get po -ojsonpath={.items[*].status.podIP}
