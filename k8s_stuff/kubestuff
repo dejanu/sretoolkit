@@ -26,7 +26,7 @@ kubectl run ephemeral-demo --image=registry.k8s.io/pause:3.1 --restart=Never
 # Create a pod (the minimum needed flag is --image)
 kubectl run nginx --image=nginx
 # Create a pod named basic with port 80 open to TCP
-kubectl run -n red --image=nginx:stable-alpine-perl --restart=OnFailure --port=80 basic
+kubectl run basic --image=nginx:stable-alpine-perl --restart=OnFailure --port=80
 # Create a pod using  dry-run, e.g. the --image option is required
 kubectl -run --image=nginx:stable-alpine-perl basic --dry-run=client -o yaml
 
@@ -81,6 +81,10 @@ kubectl expose pod basic -n red --name=cloudacademy-svc --port=8080 --target-por
 # The command will assign a random port >= 30000. So use the Patch command to assign the port to a known, unused and desired port >= 30000
 
 kubectl -n ca1 expose deployment cloudforce --name=cloudforce-svc --type="NodePort" --port=80
+
+# get the port exposed by the service
+kubectl -n ca1 get svc cloudforce-scv -ojsonpath="{.spec.ports[0].nodePort}"
+# patch the service to a known port
 kubectl -n ca1 patch service cloudforce-svc --type='json' --patch='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value":32080}]'
 
 # all the above in one command
