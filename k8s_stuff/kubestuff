@@ -202,6 +202,7 @@ kubectl autoscale deployment <deployment> --cpu-percent=65 --min=2 --max=4
 
 # create secret
 kubectl create secret generic mysql --from-literal=password=root
+kubectl create secret generic password-secret --from-file=./pass.txt
 
 # describe secret
 kubectl -n istio-system describe secret ingress-cert-cacert
