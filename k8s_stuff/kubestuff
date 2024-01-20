@@ -64,6 +64,7 @@ kubectl debug pods/mssql --image nicolaka/netshoot -it --target mssql -- bash
 
 # Creating SERVICEs
 ======================================================================================================
+# Service discovery via DNS: svc_name.namespace.svc.cluster.local
 
 # creates a local service to access a ClusterIP, usefull for troubleshooting and provides quick way to check your service
 kubectl proxy
@@ -117,7 +118,6 @@ sudo apt-get update
 # find the latest patch release version for Kubernetes using OS package manager e.g:  1.26.3-00
 # the same as apt list -a <package name>
 apt-cache madison kubeadm
-
 
 # cancel hold on packages
 sudo apt-mark unhold kubelet kubeadm kubectl
@@ -267,7 +267,8 @@ kubectl -n rep get po -l "colour in (orange,red,yellow)" -owide | sort -k 5 |  a
 ## Get container/images from pod
 ======================================================================================================
 
-# look at the specs
+# look at the specs kubectl explain <resource>.<key>
+kubectl explain po --recursive 
 kubectl explain pod.spec.containers
 
 # get container running in a SINGLE POD
