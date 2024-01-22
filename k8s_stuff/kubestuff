@@ -54,6 +54,9 @@ kubectl -n sec1 exec -it pod2 -- ping $pod1IP
 # overwrite po label
 kubectl label po <pod_name> sidecar.istio.io/inject=false --overwrite
 
+# labels at runtime --show-labels
+kubectl run <pod_name> --image=ngnix --labels='environment=dev','cluster=1' --overwrite
+
 # start po with label e.g. set sidecar.istio.io/inject to false
 kubectl run istiomssql -i --tty --labels=sidecar.istio.io/inject="false" --image=mcr.microsoft.com/mssql-tools:latest
 # attach tty
@@ -210,9 +213,6 @@ kubectl -n istio-system describe secret ingress-cert-cacert
 # take the ca.crt from secret
 kubectl get secrets -n istio-system ingress-cert-cacert -o json | jq -r '.data."ca.crt"' | base64 -d > ca.crt
 
-# delete secret
-kubectl -n istio-system delete secret ingress-cert-cacert
-
 # create ingress-cert-cacert
 kubectl -n istio-system create secret generic ingress-cert-cacert --from-file=ca.crt --from-file=Publiccert.cer
 
@@ -340,3 +340,13 @@ kubectl get --raw /apis/metrics.k8s.io/v1beta1/pods | jq .items[].containers[].u
 
 # ingress endpoint
 kubectl get --raw "/apis/networking.k8s.io/v1/ingresses/"
+
+## Kubeconfig
+======================================================================================================
+
+# client-certificate-data contains PEM-encoded data from a client cert file for TLS. Overrides ClientCertificate
+
+kubectl config view - raw -o jsonpath="{.clusters[?(@.name == 'INSERT_CLUSTER_NAME')].cluster.certificate-authority-data}" | b
+ase64 -d | openssl x509 -text | grep -A2 Validity
+
+kubectl config view --raw -o jsonpath="{.clusters[?(@.name == 'INSERT_CLUSTER_NAME')].cluster.certificate-authority-data}" | base64 -d | openssl x509 -text | grep -A2 Validity
