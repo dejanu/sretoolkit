@@ -111,6 +111,13 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 # check kubelet status
 systemctl status kubelet.service
 
+# get kubelet logs
+journalctl -u kubelet.service
+journalctl -u kubelet
+
+# file containing the kubelet's ComponentConfig
+sudo cat /var/lib/kubelet/config.yaml
+
 # drain worker node, draining will cordon the node also (do not forget to uncordon the node)
 kubectl drain --ignore-daemonsets <node>
 
