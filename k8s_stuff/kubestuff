@@ -1,3 +1,6 @@
+# kubectl completions
+kubectl completion -h
+
 # Creating Resources/Objects
 ======================================================================================================
 # IMPERATIVE Paradigm - no embedded history
@@ -39,12 +42,6 @@ kubectl run borg2 --image=busybox --restart=Always -- /bin/sh -c "echo working..
 
 # what doc: https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_run/
 
-# discover the IP of all pods in test namespace
-kubectl -n test get po -ojsonpath={.items[*].status.podIP}
-# discover the IP of pod named testpo in test namespace
-kubectl -n test get pod testpo -o jsonpath='{.status.podIP}'
-# sort pods by IPs in test namespace
-kubectl -n test get po -o wide --sort-by=.status.podIP
 
 # ping from 
 kubectl -n sec1 exec -it pod2 -- ping $pod1IP
@@ -271,18 +268,30 @@ kubectl get po -l env=demo
 # get po with label colour in (orange,red,yellow) values and sort by column
 kubectl -n rep get po -l "colour in (orange,red,yellow)" -owide | sort -k 5 |  awk '{ print $1 }'
 
-## Get container/images from pod
+## Get and sort field container/images from pod
 ======================================================================================================
 
 # look at the specs kubectl explain <resource>.<key>
 kubectl explain po --recursive 
 kubectl explain pod.spec.containers
 
+# sort like a pro
+
+# discover the IP of ALL pods in test namespace
+kubectl -n test get po -ojsonpath='{.items[*].status.podIP}'
+
+# discover the IP of pod named testpo in test namespace
+kubectl -n test get pod testpo -o jsonpath='{.status.podIP}'
+# sort pods by IPs in test namespace
+kubectl -n test get po -o wide --sort-by=.status.podIP
+
+kubect -n <namespace> get po --sort-by=metadata.creationTimestamp
+
 # get container running in a SINGLE POD
-kubectl -n <namespace> get pod <pod_name>  -o jsonpath="{.spec.containers[*].name}"
+kubectl -n <namespace> get po <pod_name>  -o jsonpath="{.spec.containers[*].name}"
 
 # get container running in a NAMESPACE
-kubectl -n <namespace>  get pod -o jsonpath="{.items[*].spec.containers[*].name}"
+kubectl -n <namespace>  get po -o jsonpath="{.items[*].spec.containers[*].name}"
 
 # get containers in a certain pod 
 kubectl get pods <pod_name> -o jsonpath='{.spec.containers[*].name}'
