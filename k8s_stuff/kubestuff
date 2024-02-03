@@ -195,8 +195,9 @@ kubectl rollout status deloy/<deployment_name>
 # view object revisions
 kubectl rollout history deploy <deployment>
 
-# return to a previous version
+# return to a previous version or to a specific revision
 kubectl rollout undo
+kubectl rollout undo deploy <deployment> -to-revision=1
 
 # create deployment named rtro
 kubectl -n cal create deployment rtro --image=busybox:1.31.1
