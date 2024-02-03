@@ -100,6 +100,9 @@ kubectl run client -n skynet --image=appropriate/curl -it --rm --restart=Never -
 
 ## Upgrade K8s cluster (worker/cp)
 ======================================================================================================
+ ## STATIC PODS: managed by kubelet, not by kube-apiserver
+ # to check the static pods on a node look at the kubelet manifest directory: /etc/kubernetes/manifests
+ cat /var/lib/kubelet/config.yaml | grep staticPodPath # also check the kubelet service file
 
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
