@@ -1,5 +1,6 @@
 # kubectl completions
 kubectl completion -h
+export do="-o yaml --dry-run=client"
 
 # Creating Resources/Objects
 ======================================================================================================
