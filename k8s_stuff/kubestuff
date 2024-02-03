@@ -195,7 +195,7 @@ kubectl rollout status deloy/<deployment_name>
 # view object revisions
 kubectl rollout history deploy <deployment>
 
-# return to a previous version or to a specific revision
+# rollback to a previous version or to a specific revision
 kubectl rollout undo
 kubectl rollout undo deploy <deployment> --to-revision=1
 
