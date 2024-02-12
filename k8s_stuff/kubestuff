@@ -189,17 +189,6 @@ kubect get nodes --show-labels
 # check node taints
 kubectl describe nodes|grep -A5 -i taint
 
-# nodeName is a more direct form of node selection than affinity or nodeSelector. nodeName is a field in the Pod spec. 
-apiVersion: v1
-kind: Pod
-metadata:
-  name: nginx
-spec:
-  containers:
-  - name: nginx
-    image: nginx
-  nodeName: kube-01
-
 # check the maximum number of pods supported by a node
 kubectl describe no <node> |  grep -i capacity -A10
 
