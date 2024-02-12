@@ -175,28 +175,36 @@ TOKEN=$(kubectl  get secret default-token-zc7s7 -o json |  jq -r '.data."token"'
 # configmap can be created from literal values, or individual files
 
 
-## Scheduling 
+## Scheduling and Nodes
 ======================================================================================================
 # check node labels
 kubectl describe nodes|grep -A5 -i label
-
-# check node taints
-kubectl describe nodes|grep -A5 -i taint
-
-# check how many containers are running on a specific node, ssh into the node and run
-sudo crictl ps
-
-# check the maximum number of pods supported by a node
-kubectl describe no <node> |  grep -i capacity -A10
-
-# check running pods on a specific node
-kubectl describe node <node> | grep -A10 "Non-terminated Pods"
 
 # label node
 kubectl label node <node> <label>=<label_values>
 
 # view nodes labels
 kubect get nodes --show-labels
+
+# check node taints
+kubectl describe nodes|grep -A5 -i taint
+
+# nodeName is a more direct form of node selection than affinity or nodeSelector. nodeName is a field in the Pod spec. 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  nodeName: kube-01
+
+# check the maximum number of pods supported by a node
+kubectl describe no <node> |  grep -i capacity -A10
+
+# check running pods on a specific node
+kubectl describe node <node> | grep -A10 "Non-terminated Pods"
 
 # labels 101 for pods
 kubectl get po --show-labels
