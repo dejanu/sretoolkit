@@ -177,8 +177,12 @@ kubectl create deploy webserver --image nginx:1.22.1 --replicas=2 --dry-run=clie
 # get the deployment strategy
 kubectl get deploy <deployment> -o yaml | grep -A 4 strategy
 
+# a Deployment's revision is created when a Deployment's rollout is triggered 
 # check previous rollout revision
 kubectl rollout history deployment <deployment_name>
+
+# restart deployment
+kubectl rollout restart deployment <deployment_name>
 
 # change the base image for the deployment aka trigger deployment rollout
 kubectl set image deploy webserver nginx=nginx:1.23.1-alpine
@@ -249,7 +253,7 @@ kubectl describe nodes|grep -A5 -i label
 kubectl describe nodes|grep -A5 -i taint
 
 # check how many containers are running on a specific node, ssh into the node and run
-sudo crictl ps | wc -lsudo crictl ps | wc -l
+sudo crictl ps
 
 # check the maximum number of pods supported by a node
 kubectl describe no <node> |  grep -i capacity -A10
