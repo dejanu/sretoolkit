@@ -52,6 +52,9 @@ kubectl -n sec1 exec -it pod2 -- ping $pod1IP
 # overwrite po label
 kubectl label po <pod_name> sidecar.istio.io/inject=false --overwrite
 
+# create po label on the fly
+kubectl run am-i-ready --image=nginx:1.16.1-alpine  --labels="id=cross-server-ready" 
+
 # labels at runtime --show-labels
 kubectl run <pod_name> --image=ngnix --labels='environment=dev','cluster=1' --overwrite
 
