@@ -214,6 +214,19 @@ kubectl -n rep get po -l "colour in (orange,red,yellow)" -owide | sort -k 5 |  a
 # look at the specs kubectl explain <resource>.<key>
 kubectl explain po --recursive 
 kubectl explain pod.spec.containers
+# explain requests and limits
+kubectl explain pod.spec.containers.resources
+# check the resources of a pod (limits and requests)
+kubectl get po <pod_name> -o jsonpath='{.spec.containers[*].resources}'
+kubectl get po <pod_name> -o jsonpath='{.spec.containers[*].resources.limits}'
+kubectl get po <pod_name> -o jsonpath='{.spec.containers[*].resources.requests}'
+
+# check request and limits for containers in pod
+kubectl get po <pod_name> -o jsonpath='{.spec.containers[*].resources}'
+kubectl get pod <pod_name> -o jsonpath='{.spec.containers[*].resources.limits}'
+kubectl get pod <pod_name> -o jsonpath='{.spec.containers[*].resources.requests}'
+# get QoS class of a pod
+kubectl get pod <pod-name> -o jsonpath='{.status.qosClass}'
 
 # sort like a pro
 
@@ -273,6 +286,8 @@ kubectl get hr -A -o jsonpath="{range.items[?(@.status.phase)]}{.metadata.name}:
 
 # field type
 kubectl get events --field-selector type=Warning -A
+# events at the node level
+kubectl get events --field-selector involvedObject.kind=Node -A
 
 ## API and control plane
 ======================================================================================================
