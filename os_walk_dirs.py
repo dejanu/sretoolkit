@@ -1,13 +1,8 @@
-
-###################
-# OS and Platform #
-###################
+#!/usr/bin/env python3
 
 
 import platform,getpass,socket,sys,os
 import time
-
-
 
 # Dumb method to get HOST ip and user
 host_ip = socket.gethostbyname(socket.gethostname())
@@ -66,11 +61,23 @@ if __name__ == "__main__":
     #list_cdw()
     #listtimestamp()
     
-    ##when a module is loaded the __file__ is set to its name C:\\Users\\dej\\Desktop\\Git_projects\\Python\\os_platform_info.py
-    print(__file__)
+    # ##when a module is loaded the __file__ is set to its name C:\\Users\\dej\\Desktop\\Git_projects\\Python\\os_platform_info.py
+    # print(__file__)
 
-    ##you can use it to find the directory that the file is located
-    print(os.path.dirname(__file__))
+    # ##you can use it to find the directory that the file is located
+    # print(os.path.dirname(__file__))
 
-    ##avoid hardcoding the module absolute path
-    print(os.path.join(os.getcwd(),"OOP"))
+    # ##avoid hardcoding the module absolute path
+    # print(os.path.join(os.getcwd(),"OOP"))
+
+    # verify if env var exists
+    if os.getenv('PHIPROD_USER'):
+        if os.getenv('PHIPROD_KEY'):
+            print(f"Establish connection")
+        else:
+            sys.exit("Please set PHIPROD_KEY as env var")
+    else:
+        sys.exit("Please set PHIPROD_USER as env var")
+
+
+
