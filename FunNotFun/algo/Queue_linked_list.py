@@ -103,25 +103,29 @@ class LinkedList:
         return self.head
 
     def removeDuplicates(self,head):
-        # nodes = []
-        # node = head
-        # while node is not None:
-        #     nodes.append(node.data)
-        #     node = node.next
-        # # nodes.append("None")
-        
-        # nodes = list(set(nodes))
-        # print(nodes)
-        
-        if not head:
-            return head
-        new_node = head
-        while new_node.next:
-            if new_node.data == new_node.next.data:
-                new_node.next = new_node.next.next
+        # if not head:
+        #     return head
+        # new_node = head
+        # while new_node.next:
+        #     if new_node.data == new_node.next.data:
+        #         new_node.next = new_node.next.next
+        #     else:
+        #         new_node = new_node.next
+        # return head
+        d= {}
+        while head:
+            if head.data in d.keys():
+                d[head.data]+=1
             else:
-                new_node = new_node.next
-        return head
+                d[head.data]=1
+            head = head.next
+        
+        # create new queue
+        self.head = None
+        for i in d.keys():
+            self.insert_end(Node(i))
+        return self.head
+        
     
     def reverseList(self,head):
         """ reverse list """
@@ -154,6 +158,7 @@ if __name__ == "__main__":
 
     # insert Node at the end of the list
     llist.insert_end(node = Node("c"))
+    llist.insert_end(node =  Node("b"))
     llist.insert_end(node = Node("Insert at the end"))
 
     # insert Node at the begining of the list
@@ -162,4 +167,10 @@ if __name__ == "__main__":
 
     # reverse list
     llist.reverseList(llist.head)
+    print(llist)
+
+    # remove duplicates
+    llist.insert_end(node = Node("Insert at the end"))
+    print(llist)
+    llist.removeDuplicates(llist.head)
     print(llist)
