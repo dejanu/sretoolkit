@@ -2,6 +2,7 @@
 
 # https://www.hackerrank.com/challenges/30-linked-list
 # https://www.hackerrank.com/challenges/30-linked-list-deletion/problem
+# https://www.hackerrank.com/challenges/reverse-a-linked-list/
 
 ## Queue: FIFO - usage for buffers aka order operations
 ## Implementation using linked-list
