@@ -12,7 +12,7 @@
 ## insert in list: list_obj.insert(data)
 
 class Node:
-    """ class for individual nodes"""
+    """class for individual nodes"""
     def __init__ (self,data):
         self.data = data
         self.next = None #the pointer to the next element
@@ -63,7 +63,7 @@ class LinkedList:
     
     def __iter__(self):
         node = self.head
-        # validate that the current node is not Nonde
+        # validate that the current node is not None
         while node is not None:
             yield node
             node = node.next
@@ -96,8 +96,8 @@ class LinkedList:
                 end = end.next
 
             # insert new node    
-            end.next = new_node
-            new_node.next = None
+            end.next = node
+            node.next = None
         
         return self.head
 
@@ -135,17 +135,14 @@ if __name__ == "__main__":
     # create more Nodes
     second_node = Node("b")
     third_node = Node("c")
-
     first_node.next = second_node
     second_node.next = third_node
     print(llist)
 
-
     # insert Node at the end of the list
-    llist.insert_end()
-    print(llist)
+    llist.insert_end(node = Node("c"))
+    llist.insert_end(node = Node("Insert at the end"))
 
     # insert Node at the begining of the list
-    node_to_insert = Node("Inserted node")
-    llist.insert_first(node_to_insert)
+    llist.insert_first(node = Node("Insert at the begining"))
     print(llist)
