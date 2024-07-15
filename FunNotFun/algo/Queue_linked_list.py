@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# link: https://www.hackerrank.com/challenges/30-linked-list
+# https://www.hackerrank.com/challenges/30-linked-list
 # https://www.hackerrank.com/challenges/30-linked-list-deletion/problem
 
 ## Queue: FIFO - usage for buffers aka order operations
@@ -120,7 +120,19 @@ class LinkedList:
                 new_node.next = new_node.next.next
             else:
                 new_node = new_node.next
-        return head   
+        return head
+    
+    def reverseList(self,head):
+        """ reverse list """
+        prev = None
+        current = self.head
+        while current != None:
+            next = current.next
+            current.next = prev
+            prev = current
+            current =  next
+        self.head = prev
+        return head
 
 if __name__ == "__main__":
 
@@ -145,4 +157,8 @@ if __name__ == "__main__":
 
     # insert Node at the begining of the list
     llist.insert_first(node = Node("Insert at the begining"))
+    print(llist)
+
+    # reverse list
+    llist.reverseList(llist.head)
     print(llist)
