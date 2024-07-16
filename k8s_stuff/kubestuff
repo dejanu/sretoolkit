@@ -43,7 +43,6 @@ kubectl run borg2 --image=busybox --restart=Always -- /bin/sh -c "echo working..
 
 # what doc: https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_run/
 
-
 # ping from 
 kubectl -n sec1 exec -it pod2 -- ping $pod1IP
 
@@ -74,6 +73,8 @@ kubectl debug pods/mssql --image nicolaka/netshoot -it --target mssql -- bash
 kubectl proxy
 
 # tunnel traffic: forward connection to a local port:8080 to a port on a pod:80
+# forwards connections to a local port to a port on a pod.
+# is more generic as it can forward TCP traffic while kubectl proxy can only forward HTTP traffic
 kubectl port-forward pod/<pod_name> 8080:80
 
 # create service
