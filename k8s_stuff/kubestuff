@@ -69,8 +69,8 @@ kubectl debug pods/mssql --image nicolaka/netshoot -it --target mssql -- bash
 ======================================================================================================
 # Service discovery via DNS: svc_name.namespace.svc.cluster.local
 
-# creates a local service to access a ClusterIP, usefull for troubleshooting and provides quick way to check your service
-kubectl proxy
+# creates proxy server or application-level gateway between localhost and the Kubernetes API server.
+kubectl proxy -p 5555 # Default: 8001
 
 # tunnel traffic: forward connection to a local port:8080 to a port on a pod:80
 # forwards connections to a local port to a port on a pod.
