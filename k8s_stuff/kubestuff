@@ -80,6 +80,9 @@ kubectl port-forward pod/<pod_name> 8080:80
 # create service
 kubectl -n red expose po basic --name=cloudacademy-svc --type="ClusterIP" --port=8080 --target-port=80
 
+# patch service, from ClusterIP to LoadBalancer
+kubectl -n red patch svc cloudacademy-svc -p '{"spec":{"type":"LoadBalancer"}}
+
 # Expose a Pod in the red Namespace with the following configuration: The Service name is cloudacademy, the Service port is8080, the Target port is80, the Service type isClusterIP
 kubectl expose pod basic -n red --name=cloudacademy-svc --port=8080 --target-port=80
 
