@@ -22,7 +22,7 @@ city = defaultdict(lambda: "Default value")
 le_alphabet = dict(zip(range(len(string.ascii_letters)),string.ascii_letters))
 
 # dict comprehension for alphabet
-le_aphabet = {k:v for k,v in enumerate(string.ascii_lowecase,1)}
+le_aphabet = {k:v for k,v in enumerate(string.ascii_lowercase,1)}
 
 
 

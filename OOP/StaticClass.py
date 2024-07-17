@@ -29,7 +29,6 @@ class MyClass(object):
     @staticmethod
     def the_static_method(x):
         """method that is not bound to a class or instance"""
-        
         print("I can be called on a instance or on a class")
         return x+1
         
@@ -51,7 +50,6 @@ class MyClass(object):
 
 if __name__ == "__main__":
     
-
     # classmethod usage
     obj=MyClass.uppersize("alex")   
     print(obj.name)
@@ -62,8 +60,6 @@ if __name__ == "__main__":
 
     ##it is the same for 2 instance objects
     print(MyClass("ale").the_static_method == MyClass("ionut").the_static_method) #TRUE
-
-
 
     ##CLASSMETHODS used as FACTORY methods, to create an instance with a pre-processing a priori
     print(MyClass.uppersize("test") == MyClass("test").uppersize("aha")) #TRUE
