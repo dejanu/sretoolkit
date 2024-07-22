@@ -24,8 +24,6 @@ le_alphabet = dict(zip(range(len(string.ascii_letters)),string.ascii_letters))
 # dict comprehension for alphabet
 le_aphabet = {k:v for k,v in enumerate(string.ascii_lowercase,1)}
 
-
-
 #bench-mark
 d = {"Pierre": 42, "Anne": 33, "Zoe": 24}
 
@@ -40,16 +38,17 @@ def dict_info(d):
 
 # if you want look-up by value (e.g search for value v)
 # wanted_key  = [key for key,value in dict_appear.items() if value == v]
+# just get the first key/value without knowing dict
+# first_key = next(iter(dict.keys()))
 
 # not the purpose of dict
 def sort_keys(d):
-    '''sort a dictonary by KEYS '''
+    # sort a dictonary by KEYS
     new_d = {}
     sorted_k = d.keys().sort()
     for i in sorted_k:
         new_dd[i] = d.get(i) 
     return new_d
-
 
 # sort dict a by values
 def sort_value(d):
@@ -63,11 +62,10 @@ def unqiue_values_dict(d):
         dd = {"f1":312,"f2":432}
     """
     dd = {}
-	for k,v in d.items():
-		if v not in dd.values():
-			dd[k]=v
+    for k,v in d.items():
+        if v not in dd.values():
+            dd[k]=v
     return dd
-
 
 def string_mapping(s="Sphinx of black quart judge my voow"):
         """return a dict mapping no of appearances"""
@@ -79,8 +77,6 @@ def string_mapping(s="Sphinx of black quart judge my voow"):
             dict_appear[i] = 0
         return dict_appear
         
-
-
 def recurse_dict(d):
 	""" iterative function for nested dict """
 	for k,v in d.items():
