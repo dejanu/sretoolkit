@@ -24,7 +24,7 @@ le_alphabet = dict(zip(range(len(string.ascii_letters)),string.ascii_letters))
 # dict comprehension for alphabet
 le_aphabet = {k:v for k,v in enumerate(string.ascii_lowercase,1)}
 
-#bench-mark
+# benchmark
 d = {"Pierre": 42, "Anne": 33, "Zoe": 24}
 
 def dict_info(d):
@@ -38,8 +38,12 @@ def dict_info(d):
 
 # if you want look-up by value (e.g search for value v)
 # wanted_key  = [key for key,value in dict_appear.items() if value == v]
+
 # just get the first key/value without knowing dict
 # first_key = next(iter(dict.keys()))
+
+# get the element with the smallest value in the dict{k:v}
+min(dict.items(), key=lambda i: i[1])
 
 # not the purpose of dict
 def sort_keys(d):
@@ -111,6 +115,3 @@ if __name__ == "__main__":
 
     #update dict - not prost style, if key update value else add key:value
     # my_dict.update({"key":5})
-
-    
-
