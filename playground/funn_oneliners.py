@@ -19,3 +19,9 @@ socket.gethostbyname(socket.gethostname())
 nohup python3 -m http.server 80 > /dev/null 2>&1 & 
 # python2
 python -m SimpleHTTPServer 80
+
+
+# interpreter eazy asf
+python3 -c "import sys; [exec(arg) for arg in sys.argv[1:]]" 'print(globals())'
+python3 -c "import sys;  f=open(sys.argv[1]); exec(f.read()); f.close()" main.py #read and exec main.py
+
