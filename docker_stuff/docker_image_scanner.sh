@@ -1,6 +1,13 @@
 
 #!/usr/bin/env bash
 
+###########################################
+#                                        ##
+# @dejanualex: Trivy based image scanner ## 
+#                                        ##
+###########################################
+
+
 # CreatedSince: how long vs. CreatedAt: exact timestamp
 echo -e "\e[36mYou have \e[33m$(docker system info --format '{{ .Images}}')\e[36m images on your machine:\e[0m"
 docker images --format "{{ .Repository }}:{{ .Tag }} -----> Created: {{ .CreatedSince }}"
@@ -14,3 +21,5 @@ timestamp=$(date +%d_%m_%Y_%S)
 mkdir -p /tmp/report
 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ -v /tmp/report:/tmp aquasec/trivy:latest image \
 -f template --template "@contrib/html.tpl" -o /tmp/report_"${timestamp}".html ${image_name}
+
+echo -e "\e[36mConsider running: \e[33mdocker container prune -f && docker image prune -f\e[36m to clean-up your local machine\e[0m"
