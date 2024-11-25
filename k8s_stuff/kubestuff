@@ -1,6 +1,10 @@
 # kubectl completions
 kubectl completion -h
+# quick autocomplete
+source <(kubectl completion bash)
+
 export do="-o yaml --dry-run=client"
+
 
 # Creating Resources/Objects
 ======================================================================================================
@@ -14,10 +18,6 @@ kubectl apply -f (from FILE or STDIN)
 # kubectl expose - creates services
 # kubectl set,edit,patch - top dog
 # kubectl replace -f deployment.yaml --save-config
-
-# Creates a deployment
-kubectl create deployment nginx --image=nginx
-kubectl create deployment webapp --image=nginx:1.17.8 --replicas=2
 
 # Create a pod with a shell
 kubectl run -i --tty busybox --image=busybox --restart=Never -- sh
@@ -83,7 +83,7 @@ kubectl port-forward pod/<pod_name> 8080:80
 kubectl -n red expose po basic --name=cloudacademy-svc --type="ClusterIP" --port=8080 --target-port=80
 
 # patch service, from ClusterIP to LoadBalancer
-kubectl -n red patch svc cloudacademy-svc -p '{"spec":{"type":"LoadBalancer"}}
+kubectl -n red patch svc cloudacademy-svc -p '{"spec":{"type":"LoadBalancer"}}'
 
 # Expose a Pod in the red Namespace with the following configuration: The Service name is cloudacademy, the Service port is8080, the Target port is80, the Service type isClusterIP
 kubectl expose pod basic -n red --name=cloudacademy-svc --port=8080 --target-port=80
@@ -112,40 +112,41 @@ kubectl run client -n skynet --image=appropriate/curl -it --rm --restart=Never -
 ======================================================================================================
 
 # create deployment webserver yaml file based on ngnix image
-kubectl create deploy webserver --image nginx:1.22.1 --replicas=2 --dry-run=client -o yaml | tee dep.yaml
+kubectl create deploy webserver --image nginx:1.22.1 --replicas=2 --dry-run=client -oyaml | tee dep.yaml
+
 
 # get the deployment strategy
-kubectl get deploy <deployment> -o yaml | grep -A 4 strategy
+kubectl get deploy <deployment> -o yaml | grep -A4 strategy
 
-# a Deployment's revision is created when a Deployment's rollout is triggered 
-# check previous rollout revision
+# A Deployment revision is created when a Deployment  rollout is triggered 
+# check deploy rollout revisions history
 kubectl rollout history deployment <deployment_name>
 
 # restart deployment
 kubectl rollout restart deployment <deployment_name>
 
-# change the base image for the deployment aka trigger deployment rollout
-kubectl set image deploy webserver nginx=nginx:1.23.1-alpine
-kubectl set image deployment.v1.apps/cloudforce nginx=nginx:1.19.0-perl
+# Update the deployment to use the newer nginx:1.19.0 image (NEED to specify container name) ka trigger deployment rollout
+kubectl set image deploy webapp nginx=nginx:1.19.0  # where nginx is the container name
 
 # To manage the deployment history, use the annotate command to create a message.
 kubectl annotate deployment cloudforce kubernetes.io/change-cause="set image to nginx:1.19.0-perl" --overwrite=true
 
-# Deployment strategies / Update strategies: RollingUpdate vs. Recreate
-# are defined under spec.strategy in the manifests
+# Perform the deployment update and ensure that the command used to perform it is recorded in the tracked rollout history.
+kubectl set image deployment webapp nginx=nginx:1.19.0 --record
+
+# change-cause annotation: https://kubernetes.io/docs/reference/labels-annotations-taints/#change-cause
+# The annotation is optional and does not impact the functioning of your deployment or cluster
 
 # rolling deployment is the default deployment strategy 
 kubectl rollout status deloy/<deployment_name>
-
-# view object revisions
-kubectl rollout history deploy <deployment>
 
 # rollback to a previous version or to a specific revision
 kubectl rollout undo
 kubectl rollout undo deploy <deployment> --to-revision=1
 
-# create deployment named rtro
-kubectl -n cal create deployment rtro --image=busybox:1.31.1
+
+# Deployment strategies / Update strategies: RollingUpdate vs. Recreate
+# are defined under spec.strategy in the manifests
 
 # autoscale deployments: Autoscaling creates a HorizontalPodAutoscaler
 # horizontalpodautoscaler.autoscaling: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
