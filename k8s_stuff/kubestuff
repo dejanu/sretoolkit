@@ -64,6 +64,8 @@ kubectl run istiomssql -i --tty --labels=sidecar.istio.io/inject="false" --image
 # attach tty
 kubectl attach istiomssql -c istiomssql -i -t
 
+# get all pod with label in red,orange,blue
+kubectl -n rep get po -l 'colour in (red,orange,blue)'
 # use the kubectl debug node command to deploy a Pod to a Node that you want to troubleshoot
 kubectl debug pods/mssql --image nicolaka/netshoot -it --target mssql -- bash
 
