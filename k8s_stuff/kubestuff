@@ -35,11 +35,13 @@ kubectl run basic --image=nginx:stable-alpine-perl --restart=OnFailure --port=80
 kubectl -run --image=nginx:stable-alpine-perl basic --dry-run=client -o yaml
 
 # commmand vs arg: command coresponds to ENTRYPOINT and args corresponds to CMD instruction: 
-# give cmd
+
+# cmd
 kubectl run borg1 --image=busybox --restart=Always --command -- /bin/sh -c "echo working... && sleep 3600"
 
-# gives args
+# args
 kubectl run borg2 --image=busybox --restart=Always -- /bin/sh -c "echo working... && sleep 3600"
+kubectl run borg2 --image=busybox --rm -it /bin/sh
 
 # what doc: https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_run/
 
