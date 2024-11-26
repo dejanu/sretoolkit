@@ -116,12 +116,15 @@ kubectl run client -n skynet --image=appropriate/curl -it --rm --restart=Never -
 # create deployment webserver yaml file based on ngnix image
 kubectl create deploy webserver --image nginx:1.22.1 --replicas=2 --dry-run=client -oyaml | tee dep.yaml
 
-
 # get the deployment strategy
 kubectl get deploy <deployment> -o yaml | grep -A4 strategy
 
 # A Deployment revision is created when a Deployment  rollout is triggered 
-# check deploy rollout revisions history
+# check deploy rollout revisions history, revisionHistoryLimit: specify how many old ReplicaSets for this Deployment you want to retain
+# spec:
+#   replicas: 3
+#   revisionHistoryLimit: 5
+
 kubectl rollout history deployment <deployment_name>
 
 # restart deployment
