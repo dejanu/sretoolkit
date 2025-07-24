@@ -6,7 +6,7 @@ from botocore.exceptions import ClientError
 
 ## https://boto3.amazonaws.com/v1/documentation/api/latest/guide/configuration.html#using-environment-variables
 
-## boto3.client() = low level interace that maps directly to AWS service APIs and returns raw dict from AWS API
+## boto3.client() = low level interface that maps directly to AWS service APIs and returns raw dict from AWS API
 ## botot3.resource() = high level OOP interfaces
 
 
@@ -51,8 +51,7 @@ def delete_bucket(client,bucket_name):
         print(f"Bucket name does not exist:{err.response['Error']}")
         return 
 
-def upload_file(client,bucket_name,file):
-    
+
 
 if __name__ == "__main__":
 
