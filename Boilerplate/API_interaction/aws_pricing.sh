@@ -12,13 +12,13 @@ service=$(jq -r ".offers | keys[${service_number} - 1]" index.json)
 # get the service index file
 curl -s "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/${service}/index.json" -o "${service}_index.json"
 
-
 echo "Available offers for ${service}:"
 jq -r '.versions | to_entries[] | "\(.key): \(.value)"' "${service}_index.json" | nl
 read -p "Enter the number of the offer you want to query: " offer_number
 
 # for the number selected by the user return the offer url i.e. /offers/v1.0/aws/AmazonS3/20250717165314/index.json
-offer=$(jq '.versions["20250717165314"].offerVersionUrl' "${service}_index.json" | tr -d '"')
+# Offers A list of available service price list files.
+offer=$(jq -r ".versions | to_entries[$((offer_number - 1))].value.offerVersionUrl" "${service}_index.json")
 echo "Selected offer: ${offer}" 
 url="https://pricing.us-east-1.amazonaws.com${offer}"
 echo "Offer URL: ${url}"
