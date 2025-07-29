@@ -1,38 +1,57 @@
 #!/usr/bin/env python3
 
-
 import boto3
 
-# create resource
-client = boto3.client('s3')
+
+def list_buckets(client):
+    """ list buckets """
+    return ([b["Name"] for b in s3client.list_buckets()['Buckets']])
+
+def create_bucket(client,bucket_name):
+    """create bucket """
+    import uuid
+    bucket_unique = f"{bucket_name}-{str(uuid.uuid4()).split('-')[0]}"
+    print(f"Creating bucket: {bucket_unique}")
+    return client.create_bucket(Bucket = bucket_unique,
+                                CreateBucketConfiguration = { "LocationConstraint" : "us-west-1" }
+                                )   
+
+def delete_bucket(client,bucket_name):
+    """ delete bucket """
+    return client.delete_bucket(Bucket = bucket_name)
+
+def delete_objects(client,bucket_name):
+    """ delete objects in a bucket """
+    for obj in client.list_objects_v2(Bucket = bucket_name).get('Contents'):
+        print(obj)
+    ## delete objects in bucket: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3/client/delete_objects.html
+    return client.delete_objects(Bucket=bucket_name,
+                                 Delete = { 
+                                     'Objects': [{'Key': 'testme-0c5f2c52-object'}]
+                                        }
+                                )
 
 
-
-# import uuid
-
-# mybucket = resource.Bucket(f"test-{str(uuid.uuid4()).split('-')[0]}")
-
-# mybucket.create(
-#     CreateBucketConfiguration={
-#         'LocationConstraint': 'us-west-1'
-#     }
-# )
-
-# print(f"Bucket {mybucket.name} created successfully.")
-
-import os
-
-def read_file(filename, bucket):
-    # https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-uploading-files.html
-    for p,d,f in os.walk(os.getcwd()):
-        for file in f:
-            if file == filename:
-                print(os.path.join(p,file))
-                with open(os.path.join(p,file),'rb') as f:
-                    r = client.upload_fileobj(f,bucket,"objttest")
-
-
-
+def transfer_file(client,bucket_name, filename, upload = False):
+    """ upload or download file to a bucket"""
+    import os
+    if upload == True: #uploading file
+        for p,d,f in os.walk(os.getcwd()):
+            for ffile in f:
+                if ffile ==  filename:
+                    print(os.path.join(p,ffile))
+                    with open(filename,'rb') as fo:
+                        return client.upload_fileobj(fo,bucket_name,f"{bucket_name}-object")
+    else: # downloading file: https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-example-download-file.html
+        # list objects in bucket: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3/client/list_objects_v2.html#
+        print (f"Objects in bucket: {client.list_objects_v2(Bucket = bucket_name).get('Contents')}")
+        return client.download_file(bucket_name,'testme-0c5f2c52-object',filename)
 
 if __name__ == "__main__":
-    read_file('upload.txt','test-3e0a8259')
+    
+    s3client =  boto3.client('s3', region_name = "us-west-1")
+    # a = create_bucket(s3client,"testme")
+    print(list_buckets(s3client)) 
+    # transfer_file(s3client,'testme-0c5f2c52','new.json',upload=False)
+    #print(delete_objects(s3client,'testme-0c5f2c52'))
+    #a =  delete_bucket(s3client,'testme-0c5f2c52')
