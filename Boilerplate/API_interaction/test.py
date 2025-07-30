@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import boto3
-
+from botocore.exceptions import ClientError
 
 def list_buckets(client):
     """ list buckets """
@@ -18,19 +18,21 @@ def create_bucket(client,bucket_name):
 
 def delete_bucket(client,bucket_name):
     """ delete bucket """
-    return client.delete_bucket(Bucket = bucket_name)
+    try:
+        return client.delete_bucket(Bucket = bucket_name)
+    except ClientError as err:
+        print("Error deleting bucket:", err)
 
 def delete_objects(client,bucket_name):
     """ delete objects in a bucket """
     for obj in client.list_objects_v2(Bucket = bucket_name).get('Contents'):
         print(obj)
-    ## delete objects in bucket: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3/client/delete_objects.html
-    return client.delete_objects(Bucket=bucket_name,
+        ## delete objects in bucket: https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3/client/delete_objects.html
+        client.delete_objects(Bucket=bucket_name,
                                  Delete = { 
-                                     'Objects': [{'Key': 'testme-0c5f2c52-object'}]
+                                     'Objects': [{'Key': f'{obj["Key"]}'} ]
                                         }
                                 )
-
 
 def transfer_file(client,bucket_name, filename, upload = False):
     """ upload or download file to a bucket"""
@@ -53,5 +55,6 @@ if __name__ == "__main__":
     # a = create_bucket(s3client,"testme")
     print(list_buckets(s3client)) 
     # transfer_file(s3client,'testme-0c5f2c52','new.json',upload=False)
-    #print(delete_objects(s3client,'testme-0c5f2c52'))
-    #a =  delete_bucket(s3client,'testme-0c5f2c52')
+    # print(delete_objects(s3client,'test-ecbb756d'))
+    delete_bucket(s3client,'test-ecbb756d')
+    print(list_buckets(s3client)) 
