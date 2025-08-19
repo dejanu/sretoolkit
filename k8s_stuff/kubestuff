@@ -27,6 +27,9 @@ kubectl run -i --tty mykube --image=dejanualex/kubectl:1.0 --restart=Never -- sh
 kubectl run broken --image=dejanualex/kubectl:99 --restart=Never
 kubectl run ephemeral-demo --image=registry.k8s.io/pause:3.1 --restart=Never
 
+# cooperating containers
+kubect get po <pod> -ojsonpath='{.spec.shareProcessNamespace}'
+
 # Create a pod (the minimum needed flag is --image)
 kubectl run nginx --image=nginx
 # Create a pod named basic with port 80 open to TCP
@@ -329,6 +332,14 @@ kubectl get --raw "/apis/networking.k8s.io/v1/ingresses/"
 
 ## Kubeconfig
 ======================================================================================================
+
+# A configuration file describes clusters, users, and contexts.
+# Each context is a triple (cluster, user, namespace)
+kubectl config get-contexts
+kubectl config current-context
+
+# Set test namespace as the default for the current context
+kubectl config set-context $(kubectl config current-context) --namespace=test
 
 # client-certificate-data contains PEM-encoded data from a client cert file for TLS. Overrides ClientCertificate
 
