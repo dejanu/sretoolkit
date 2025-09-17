@@ -1,9 +1,0 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  namespace: test1
-  name: hr-reader-role
-rules:
-- apiGroups: [""] # "" indicates the core API group
-  resources: ["pod"]
-  verbs: ["get", "watch", "list"]
