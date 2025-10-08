@@ -208,7 +208,8 @@ kubectl create sa api-access
 kubectl create clusterrolebinding api-access-binding \
   --clusterrole=cluster-admin \
   --serviceaccount=default:api-access
-# create JWT token signed with the cluster's private key
+
+# request JWT token signed with the cluster's private key, for the sa api-access
 TOKEN=$(kubectl create token api-access --duration=24h)
 
 
