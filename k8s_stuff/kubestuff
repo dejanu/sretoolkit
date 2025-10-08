@@ -193,6 +193,10 @@ kubectl -n test1 get sa <sa_name> -ojson | jq -r '.secrets[].name'
 kubectl config view --raw --minify --flatten -ojsonpath='{.users[].user}'
 
 ## curl API needs: API URL, AUTH(token or cert), and CA cert (to verify the API server cert)
+curl --cacert ca.crt \
+     --header "Authorization: Bearer $TOKEN" \
+     $API_SERVER/api/v1/namespaces/default/pods
+
 # get the API server URL
 kubectl config view --raw --minify --flatten -ojsonpath='{.clusters[].cluster.server}'
 API_SERVER=$(kubectl config view --raw --minify --flatten -ojsonpath='{.clusters[].cluster.server}')
