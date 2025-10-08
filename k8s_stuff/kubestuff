@@ -185,13 +185,49 @@ kubectl get secrets <secret_name> -o yaml > sqlsecret.yml
 # service accounts have token as a secret
 kubectl -n test1 get sa <sa_name> -ojson | jq -r '.secrets[].name'
 
-# getting the  service account token that is used for authentication: kubernetes.io/service-account-token
-kubectl -n kube-system get secret default-token-gfnmr -oyaml
-kubectl -n kube-system get secret default-token-gfnmr -o jsonpath={.data.token} | base64 -d
-TOKEN=$(kubectl  get secret default-token-zc7s7 -o json |  jq -r '.data."token"' | base64 -d )
 
-# configmap can be created from literal values, or individual files
+## Auth type: client certs vs. sa token vs. IAM/AD
+======================================================================================================
 
+# quickly see your auth type
+kubectl config view --raw --minify --flatten -ojsonpath='{.users[].user}'
+
+## curl API needs: API URL, AUTH(token or cert), and CA cert (to verify the API server cert)
+# get the API server URL
+kubectl config view --raw --minify --flatten -ojsonpath='{.clusters[].cluster.server}'
+API_SERVER=$(kubectl config view --raw --minify --flatten -ojsonpath='{.clusters[].cluster.server}')
+
+# create a service account
+kubectl create sa api-access
+
+# bind the api-access SA to a cluster role (cluster-admin, admin, edit, view)
+kubectl create clusterrolebinding api-access-binding \
+  --clusterrole=cluster-admin \
+  --serviceaccount=default:api-access
+# create token
+TOKEN=$(kubectl create token api-access --duration=24h)
+
+
+#  get the secret name for the default service account in the kube-system
+kubectl -n kube-system get secrets | grep default-token
+
+# get the token data from the secret and decode it
+kubectl -n kube-system get secret default-token-gjqzd  -ojsonpath={.data.token} | base64 -d
+kubectl -n kube-system get secret default-token-gjqzd -ojson |  jq -r '.data.token' | base64 -d 
+# oneliner
+TOKEN=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='default')].data.token}" | base64 --decode)
+
+
+# get the CA
+kubectl config view --raw --minify --flatten -ojsonpath='{.clusters[].cluster.certificate-authority-data}' | base64 --decode > ca.crt
+
+# multiple contexts
+CONTEXT_NAME="docker-desktop"
+CLUSTER=$(kubectl config view -o jsonpath="{.contexts[?(@.name=='$CONTEXT_NAME')].context.cluster}")
+API_SERVER=$(kubectl config view -o jsonpath="{.clusters[?(@.name=='$CLUSTER')].cluster.server}")
+kubectl config view --raw -o jsonpath="{.clusters[?(@.name=='$CLUSTER')].cluster.certificate-authority-data}" | base64 --decode > ca-$CONTEXT_NAME.crt
+USER=$(kubectl config view -o jsonpath="{.contexts[?(@.name=='$CONTEXT_NAME')].context.user}")
+TOKEN=$(kubectl create token default)
 
 ## Scheduling and Nodes
 ======================================================================================================
