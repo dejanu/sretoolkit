@@ -43,7 +43,7 @@ def dict_info(d):
 # first_key = next(iter(dict.keys()))
 
 # get the element with the smallest value in the dict{k:v}
-min(dict.items(), key=lambda i: i[1])
+# min(dict.items(), key=lambda i: i[1])
 
 # not the purpose of dict
 def sort_keys(d):
@@ -75,10 +75,10 @@ def string_mapping(s="Sphinx of black quart judge my voow"):
         """return a dict mapping no of appearances"""
         dict_appear = dict()
         for i in s:
-        if i in dict_appear:
-            dict_appear[i]+=1
-        else:
-            dict_appear[i] = 0
+            if i in dict_appear:
+                dict_appear[i]+=1
+            else:
+                dict_appear[i] = 0
         return dict_appear
         
 def recurse_dict(d):
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     # my_dict.items()
 
     #update dict - prost style, it appends the key:value at the beggining of the dict
-    # my_dict['key3'] = 'updated'
+    my_dict['key3'] = 'updated'
 
     #update dict - not prost style, if key update value else add key:value
     # my_dict.update({"key":5})
