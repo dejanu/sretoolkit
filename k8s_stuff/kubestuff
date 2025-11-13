@@ -276,9 +276,11 @@ kubectl explain pod.spec.containers
 # explain requests and limits
 kubectl explain pod.spec.containers.resources
 # check the resources of a pod (limits and requests)
-kubectl get po <pod_name> -o jsonpath='{.spec.containers[*].resources}'
 kubectl get po <pod_name> -o jsonpath='{.spec.containers[*].resources.limits}'
 kubectl get po <pod_name> -o jsonpath='{.spec.containers[*].resources.requests}'
+
+# one line for resource limits for all pods
+kubectl get pods -o custom-columns=NAME:.metadata.name,MEMORY_LIMIT:.spec.containers[*].resources.limits.memory
 
 # check request and limits for containers in pod
 kubectl get po <pod_name> -o jsonpath='{.spec.containers[*].resources}'
