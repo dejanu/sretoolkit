@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: oom-test-pod
+  labels:
+    app: oom-test
+spec:
+  containers:
+  - name: memory-hog
+    image: busybox
+    command: ["sh", "-c"]
+    args:
+    - |
+      echo "Starting memory allocation..."
+      # Allocate memory in a loop until OOM killed
+      tail /dev/zero
+    resources:
+      limits:
+        memory: "64Mi"
+      requests:
+        memory: "32Mi"
+  restartPolicy: Never
