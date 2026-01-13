@@ -270,6 +270,8 @@ kubectl -n rep get po -l "colour in (orange,red,yellow)" -owide | sort -k 5 |  a
 # get all pods images from a namespace
 for i in $(kubectl po -oname);do echo -e "\n${i}";kubectl get $i -ojsonpath="{.spec.containers[*].image}";done
 
+kubectl get po -o jsonpath='{range .items[*]}{.metadata.name}{" => "}{.spec.containers[*].image}{"\n"}{end}'
+
 # look at the specs kubectl explain <resource>.<key>
 kubectl explain po --recursive 
 kubectl explain pod.spec.containers
