@@ -316,6 +316,13 @@ kubectl get pods <pod_name> -o jsonpath='{.spec.containers[*].name}'
 # get containers in namespace
 kubectl get pods -o=custom-columns=NAME:.metadata.name,CONTAINERS:.spec.containers[*].name 
 
+## Container vs POD: 
+======================================================================================================
+# pods have phase: failed, pending, running, succeeded
+kubectl get po -A --field-selector=status.phase!=Running
+
+# container has state: .state.waiting.reason → BackOff reasons
+kubectl get po -A -ojsonpath="{.items[*].status.containerStatuses[*].state.waiting.reason}"
 
 ## Storage
 ======================================================================================================
