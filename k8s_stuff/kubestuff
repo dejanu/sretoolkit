@@ -267,12 +267,13 @@ kubectl -n rep get po -l "colour in (orange,red,yellow)" -owide | sort -k 5 |  a
 ## Get and sort field container/images from pod
 ======================================================================================================
 
-# get all pods images from a desired namespace i.e. test
+# get all container images from a desired namespace i.e. test
 ns=test
 
 for i in $(kubectl -n "$ns" get po -oname);do echo -e "\n${i}";kubectl -n "$ns" get $i -ojsonpath="{.spec.containers[*].image}";done
 
-kubectl -n "$ns" get po -o jsonpath='{range .items[*]}{.metadata.name}{" => "}{.spec.containers[*].image}{"\n"}{end}' 
+kubectl get pods -n=$ns -o jsonpath='{range .items[*]}{range .spec.containers[*]}{.image}{"\n"}{end}{range .spec.initContainers[*]}{.image}{"\n"}{end}{end}' | sort -u
+
 
 # look at the specs kubectl explain <resource>.<key>
 kubectl explain po --recursive 
