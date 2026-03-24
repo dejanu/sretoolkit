@@ -14,6 +14,18 @@ kubectl create -f (from FILE or STDIN) # if the resource exists it will error
 # DECLARATIVE Paradigm
 kubectl apply -f (from FILE or STDIN)
 
+echo '
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rbac-test
+spec:
+  serviceAccountName: dev-sa
+  containers:
+  - name: test
+    image: bitnami/kubectl
+    command: ["sleep", "3600"]' | kubectl apply -f -
+
 # kubectl run - create and run a particular image in a pod. creates deployment or jobs
 # kubectl expose - creates services
 # kubectl set,edit,patch - top dog
@@ -21,11 +33,6 @@ kubectl apply -f (from FILE or STDIN)
 
 # Create a pod with a shell
 kubectl run -i --tty busybox --image=busybox --restart=Never -- sh
-kubectl run -i --tty mykube --image=dejanualex/kubectl:1.0 --restart=Never -- sh
-
-# naked broken 
-kubectl run broken --image=dejanualex/kubectl:99 --restart=Never
-kubectl run ephemeral-demo --image=registry.k8s.io/pause:3.1 --restart=Never
 
 # cooperating containers
 kubect get po <pod> -ojsonpath='{.spec.shareProcessNamespace}'
