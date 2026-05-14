@@ -44,7 +44,7 @@ kubectl run basic --image=nginx:stable-alpine-perl --restart=OnFailure --port=80
 # Create a pod using  dry-run, e.g. the --image option is required
 kubectl -run --image=nginx:stable-alpine-perl basic --dry-run=client -o yaml
 
-# commmand vs arg: command coresponds to ENTRYPOINT and args corresponds to CMD instruction: 
+# commmand vs arg: command corresponds to ENTRYPOINT and args corresponds to CMD instruction: 
 
 # cmd
 kubectl run borg1 --image=busybox --restart=Always --command -- /bin/sh -c "echo working... && sleep 3600"
@@ -97,7 +97,7 @@ kubectl -n red expose po basic --name=cloudacademy-svc --type="ClusterIP" --port
 # patch service, from ClusterIP to LoadBalancer
 kubectl -n red patch svc cloudacademy-svc -p '{"spec":{"type":"LoadBalancer"}}'
 
-# Expose a Pod in the red Namespace with the following configuration: The Service name is cloudacademy, the Service port is8080, the Target port is80, the Service type isClusterIP
+# Expose a Pod in the red Namespace with the following configuration: The Service name is cloudacademy, the Service port is 8080, the Target port is80, the Service type isClusterIP
 kubectl expose pod basic -n red --name=cloudacademy-svc --port=8080 --target-port=80
 
 # create service NodePort on port 32080: expose deployment for an app that runs on port 80 Service 
@@ -331,6 +331,9 @@ kubectl get po -A --field-selector=status.phase!=Running
 
 # container has state: .state.waiting.reason → BackOff reasons
 kubectl get po -A -ojsonpath="{.items[*].status.containerStatuses[*].state.waiting.reason}"
+
+# count pods by restart
+kubectl get pods --sort-by='.status.containerStatuses[0].restartCount'
 
 ## Storage
 ======================================================================================================
